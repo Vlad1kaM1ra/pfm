@@ -7,6 +7,14 @@ main
 {
     padding-top: 100px;
 }
+
+.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+
+}
+
 footer
 {
     position: fixed;
