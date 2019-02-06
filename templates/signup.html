@@ -6,8 +6,8 @@
 
 {% block main %}
     <main class="login">
-        <form name="login" role="form" class="mx-auto w-25"
-              onsubmit="return validateForm();" action="/signup" method="get">
+        <form name="signup" role="form" class="mx-auto w-25"
+              onsubmit="return validateSignUp();" action="/signup" method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
                 <input name="email" type="email" class="form-control" id="exampleInputEmail1"

@@ -1,4 +1,4 @@
-function validateForm() {
+function validateLogin() {
     var email = document.forms["login"]["email"].value;
     var password = document.forms["login"]["password"].value;
     var errorMessage = document.getElementsByClassName("error").item(0)
@@ -7,6 +7,42 @@ function validateForm() {
         return false;
     }
     return true;
+}
+
+function validateSignUp() {
+    var email = document.forms["signup"]["email"].value;
+    var password = document.forms["signup"]["password"].value;
+    var passwordConfirmation = document.forms["signup"]["passwordconfirmation"].value;
+    var errorMessage = document.getElementsByClassName("error").item(0)
+    var isUserExists=false;
+    if (email == "" || password == "" || passwordConfirmation == "") {
+        errorMessage.innerText = "Login, password and password must be provided";
+        return false;
+    } else if (password != passwordConfirmation) {
+        errorMessage.innerText = "Password and confirmation not match";
+        return false;
+    } else {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.response)
+                if (this.responseText == 'true') {
+                     errorMessage.innerText = "User already exists";
+                     isUserExists = true;
+                     console.log(isUserExists + " in ajax block")
+                }
+            }
+        };
+        xhttp.open("GET", "/check_user?email="+email, true);
+        xhttp.send();
+    }
+    console.log(isUserExists + " at exit");
+    if (isUserExists){
+        return false;
+    } else {
+        return false;
+    }
+
 }
 
 function getCurrentDate() {
@@ -123,7 +159,7 @@ function moreFields() {
     insertHere.parentNode.insertBefore(newFields, insertHere);
 }
 
-function callTotal(){
+function callTotal() {
     moreFields();
 }
 
