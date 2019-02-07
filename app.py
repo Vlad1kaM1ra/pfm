@@ -5,6 +5,7 @@ from tempfile import mkdtemp
 from flask import render_template
 from helpers import apology
 from werkzeug.exceptions import default_exceptions
+from werkzeug.security import check_password_hash, generate_password_hash
 from models import *
 
 app = Flask(__name__)
@@ -33,19 +34,52 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    User.add_user(User, email="test@gmail.com", hashstring="testhash1")
+    # User.add_user(User, email="test@gmail.com", hashstring="testhash1")
     return render_template("index.html")
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    return render_template("signup.html")
+    """
+    Register user
+    :return:
+    """
+    # param validation
+    if request.method == "POST":
+        if not request.form.get("email"):
+            return apology("must provide email", 400)
+        elif not request.form.get("password"):
+            return apology("must provide password", 400)
+        elif not request.form.get("confirmation"):
+            return apology("must provide confirmation", 400)
+        elif request.form.get("confirmation") != request.form.get("password"):
+            return apology("password and confirmation must match", 400)
+        else:
+            # generate hash for entered password
+            passwordHash = generate_password_hash(request.form.get("password"))
+
+            # add user to db
+            User.add_user(
+                User,
+                email=request.form.get("email"),
+                hashstring=passwordHash)
+            # request base for id
+            id = User.query.filter_by(email=request.form.get("email")) \
+                .first() \
+                .id
+            # add id to session
+            session["user_id"] = id
+            return "email:{} logged in with session id:{}".format(request.form.get("email"),
+                                                                  session["user_id"])
+
+    else:
+        return render_template("signup.html")
 
 
 @app.route('/check_user', methods=["GET"])
 def check_user():
     """
-    Check user existence by email
+    Checkx user existence by email
     :return:
     True or False
     """

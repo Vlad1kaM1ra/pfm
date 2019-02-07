@@ -9,12 +9,19 @@ function validateLogin() {
     return true;
 }
 
+function httpGet(theUrl) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
+
 function validateSignUp() {
-    var email = document.forms["signup"]["email"].value;
-    var password = document.forms["signup"]["password"].value;
-    var passwordConfirmation = document.forms["signup"]["passwordconfirmation"].value;
-    var errorMessage = document.getElementsByClassName("error").item(0)
-    var isUserExists=false;
+    let email = document.forms["signup"]["email"].value;
+    let password = document.forms["signup"]["password"].value;
+    let passwordConfirmation = document.forms["signup"]["confirmation"].value;
+    let errorMessage = document.getElementsByClassName("error").item(0);
+    let isUserExists = false;
     if (email == "" || password == "" || passwordConfirmation == "") {
         errorMessage.innerText = "Login, password and password must be provided";
         return false;
@@ -22,25 +29,17 @@ function validateSignUp() {
         errorMessage.innerText = "Password and confirmation not match";
         return false;
     } else {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.response)
-                if (this.responseText == 'true') {
-                     errorMessage.innerText = "User already exists";
-                     isUserExists = true;
-                     console.log(isUserExists + " in ajax block")
-                }
-            }
-        };
-        xhttp.open("GET", "/check_user?email="+email, true);
-        xhttp.send();
+        let response = httpGet("/check_user?email=" + email).toString().trim();
+        if (response == "true") {
+            isUserExists = true;
+            errorMessage.innerText = email + " already exists in base!";
+        }
     }
-    console.log(isUserExists + " at exit");
-    if (isUserExists){
+
+    if (isUserExists) {
         return false;
     } else {
-        return false;
+        return true;
     }
 
 }
