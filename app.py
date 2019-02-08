@@ -3,7 +3,7 @@ from flask import Flask, session, request, jsonify
 from flask_session import Session
 from tempfile import mkdtemp
 from flask import render_template
-from helpers import apology
+from helpers import apology, login_required
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 from models import *
@@ -57,6 +57,12 @@ def signup():
         else:
             # generate hash for entered password
             passwordHash = generate_password_hash(request.form.get("password"))
+
+
+            # check for user exists already
+
+            if User.query.filter_by(email=request.form.get("email")).count() > 0:
+                return apology("User already exist", 403)
 
             # add user to db
             User.add_user(
