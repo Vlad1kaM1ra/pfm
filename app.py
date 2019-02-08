@@ -10,6 +10,7 @@ from models import *
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
@@ -17,12 +18,11 @@ db.init_app(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = True
-app.config["SESSION_TYPE"] = "filesystem"
+#app.config["SESSION_FILE_DIR"] = mkdtemp()
+# app.config["SESSION_PERMANENT"] = True
+app.config["SESSION_TYPE"] = "memcached"
 # Set the secret key to some random bytes. Keep this really secret!
-app.secret_key = b'\x98\xa3\xec\xb1\x03\x98\x99f\xa3\x12\xb9\x80\x90-tM'
-Session(app)
+# Session(app)
 
 
 # Ensure responses aren't cached
