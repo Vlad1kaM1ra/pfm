@@ -1,5 +1,5 @@
 import os
-from flask import Flask, session, request, jsonify
+from flask import Flask, session, request, jsonify, redirect
 from flask_session import Session
 from tempfile import mkdtemp
 from flask import render_template
@@ -33,9 +33,21 @@ def after_request(response):
 
 
 @app.route('/')
+@login_required
 def index():
+    """
+    Application main page
+    """
     # User.add_user(User, email="test@gmail.com", hashstring="testhash1")
     return render_template("index.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Log user in"""
+     # Forget any user_id
+    session.clear()
+    return render_template("login.html")
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -75,12 +87,9 @@ def signup():
                 .id
             # add id to session
             session["user_id"] = id
-            return "email:{} logged in with session id:{}".format(request.form.get("email"),
-                                                                  session["user_id"])
-
+            return redirect("/")
     else:
         return render_template("signup.html")
-
 
 @app.route('/check_user', methods=["GET"])
 def check_user():
