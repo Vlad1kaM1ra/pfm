@@ -32,7 +32,7 @@ def after_request(response):
     return response
 
 
-@app.route('/')
+@app.route("/")
 @login_required
 def index():
     """
@@ -47,7 +47,43 @@ def login():
     """Log user in"""
      # Forget any user_id
     session.clear()
-    return render_template("login.html")
+
+     # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("email"):
+            return apology("must provide email", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 403)
+
+        # Query database for username
+        user = User.query.filter_by(email=request.form.get("email")).first()
+
+        # Ensure username exists and password is correct
+        if not user.id or not check_password_hash(str(user.hashstring), request.form.get("password")):
+            return apology("invalid email and/or password", 403)
+
+        # Remember which user has logged in
+        session["user_id"] = user.id
+
+        # Redirect user to home page
+        return redirect("/")
+    else:
+        return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -94,13 +130,32 @@ def signup():
 @app.route('/check_user', methods=["GET"])
 def check_user():
     """
-    Checkx user existence by email
+    Check user existence by email
     :return:
     True or False
     """
     email = request.args.get("email")
     user = User.query.filter_by(email=email).first()
     if user:
+        return jsonify(True)
+    else:
+        return jsonify(False)
+
+
+@app.route('/check_credentials', methods=["GET"])
+def check_credentials():
+    """
+    Check user credentials
+    :return:
+    True or False
+    """
+    email = request.args.get("email")
+    password = request.args.get("password")
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify(False)
+    hashstring = str(user.hashstring)
+    if check_password_hash(user.hashstring, password):
         return jsonify(True)
     else:
         return jsonify(False)

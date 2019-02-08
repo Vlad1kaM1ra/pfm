@@ -1,10 +1,19 @@
 function validateLogin() {
-    var email = document.forms["login"]["email"].value;
-    var password = document.forms["login"]["password"].value;
-    var errorMessage = document.getElementsByClassName("error").item(0)
+    let email = document.forms["login"]["email"].value;
+    let password = document.forms["login"]["password"].value;
+    let errorMessage = document.getElementsByClassName("error").item(0)
     if (email == "" || password == "") {
         errorMessage.innerText = "Login and password must be provided";
         return false;
+    } else {
+        let response = httpGet(
+        "/check_credentials?email=" + email
+        + "&password="+password)
+        .toString().trim();
+        if (response == "false") {
+            errorMessage.innerText = "Invalid email and/or password";
+            return false;
+        }
     }
     return true;
 }
@@ -21,7 +30,6 @@ function validateSignUp() {
     let password = document.forms["signup"]["password"].value;
     let passwordConfirmation = document.forms["signup"]["confirmation"].value;
     let errorMessage = document.getElementsByClassName("error").item(0);
-    let isUserExists = false;
     if (email == "" || password == "" || passwordConfirmation == "") {
         errorMessage.innerText = "Login, password and password must be provided";
         return false;
@@ -31,24 +39,18 @@ function validateSignUp() {
     } else {
         let response = httpGet("/check_user?email=" + email).toString().trim();
         if (response == "true") {
-            isUserExists = true;
             errorMessage.innerText = email + " already exists in base!";
+            return false;
         }
     }
-
-    if (isUserExists) {
-        return false;
-    } else {
-        return true;
-    }
-
+    return true;
 }
 
 function getCurrentDate() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    let yyyy = today.getFullYear();
 
     if (dd < 10) {
         dd = '0' + dd;
@@ -58,14 +60,14 @@ function getCurrentDate() {
         mm = '0' + mm;
     }
 
-    var currentDate = dd + '/' + mm + '/' + yyyy;
+    let currentDate = dd + '/' + mm + '/' + yyyy;
 
     document.getElementById("currentDate").innerHTML = currentDate;
 }
 
 function setExpenditure() {
-    var expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
-    var len = expenditureItems.length;
+    let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
+    let len = expenditureItems.length;
     for (i = 0; i < len; i++) {
         expenditureItems
             .item(i)
@@ -76,9 +78,9 @@ function setExpenditure() {
 }
 
 function setTotal() {
-    var expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
-    var len = expenditureItems.length;
-    var total = 0;
+    let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
+    let len = expenditureItems.length;
+    let total = 0;
     for (i = 0; i < len; i++) {
         total += parseInt(expenditureItems
             .item(i)
@@ -114,7 +116,7 @@ $(function () {
 });
 
 function setDate(date) {
-    var dates = document.getElementsByName("date");
+    let dates = document.getElementsByName("date");
     for (let i = 0; i < dates.length; i++) {
         dates.item(i).value = date;
     }
@@ -132,7 +134,7 @@ function getUrlParams(search) {
 }
 
 function inputCatInit(urlparams) {
-    params = getUrlParams(urlparams);
+    let params = getUrlParams(urlparams);
     document.getElementById("getData").innerHTML =
         params["category"] + " on " + params["date"];
 
@@ -142,10 +144,10 @@ var counter = 0;
 
 function moreFields() {
     counter++;
-    var newFields = document.getElementById('readroot').cloneNode(true);
+    let newFields = document.getElementById('readroot').cloneNode(true);
     newFields.id = '';
     newFields.style.display = 'block';
-    var newField = newFields.getElementsByTagName("input")
+    let newField = newFields.getElementsByTagName("input")
     for (var i = 0; i < newField.length; i++) {
         var theName = newField[i].name
         var theValue = newField[i].value
