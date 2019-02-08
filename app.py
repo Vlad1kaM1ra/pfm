@@ -20,6 +20,8 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
+# Set the secret key to some random bytes. Keep this really secret!
+app.secret_key = b'\x98\xa3\xec\xb1\x03\x98\x99f\xa3\x12\xb9\x80\x90-tM'
 Session(app)
 
 
