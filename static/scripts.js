@@ -62,105 +62,109 @@ function getCurrentDate() {
 
     let currentDate = dd + '/' + mm + '/' + yyyy;
 
-    document.getElementById("currentDate").innerHTML = currentDate;
-}
+    let currentDateDiv  = document.getElementById("currentDate");
 
-function setExpenditure() {
-    let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
-    let len = expenditureItems.length;
-    for (i = 0; i < len; i++) {
-        expenditureItems
-            .item(i)
-            .getElementsByClassName("text-muted")
-            .item(0)
-            .innerHTML = Math.floor(Math.random() * 100) + "&euro;";
+    if (currentDateDiv != null) {
+        currentDateDiv.innerHTML = currentDate;
     }
 }
 
-function setTotal() {
-    let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
-    let len = expenditureItems.length;
-    let total = 0;
-    for (i = 0; i < len; i++) {
-        total += parseInt(expenditureItems
-            .item(i)
-            .getElementsByClassName("text-muted")
-            .item(0)
-            .innerHTML)
-    }
-    document.getElementsByClassName("list-group-item d-flex justify-content-between text-success")
-        .item(0)
-        .getElementsByTagName("strong")
-        .item(1)
-        .innerHTML = total + "&euro;"
-
-}
-
-function mainInit() {
-    getCurrentDate();
-    setExpenditure();
-    setTotal();
-}
-
-$(function () {
-    $('#datepicker').datepicker({
-        onSelect: function (dateText) {
-            $('#datepicker2').datepicker("setDate", $(this).datepicker("getDate"));
-            setDate($(this).datepicker("option", "dateFormat", "dd-mm-yy").val());
-        }
-    });
-});
-
-$(function () {
-    $("#datepicker2").datepicker();
-});
-
-function setDate(date) {
-    let dates = document.getElementsByName("date");
-    for (let i = 0; i < dates.length; i++) {
-        dates.item(i).value = date;
-    }
-}
-
-function getUrlParams(search) {
-    let hashes = search.slice(search.indexOf('?') + 1).split('&')
-    let params = {}
-    hashes.map(hash => {
-        let [key, val] = hash.split('=')
-        params[key] = decodeURIComponent(val)
-    })
-
-    return params
-}
-
-function inputCatInit(urlparams) {
-    let params = getUrlParams(urlparams);
-    document.getElementById("getData").innerHTML =
-        params["category"] + " on " + params["date"];
-
-}
-
-var counter = 0;
-
-function moreFields() {
-    counter++;
-    let newFields = document.getElementById('readroot').cloneNode(true);
-    newFields.id = '';
-    newFields.style.display = 'block';
-    let newField = newFields.getElementsByTagName("input")
-    for (var i = 0; i < newField.length; i++) {
-        var theName = newField[i].name
-        var theValue = newField[i].value
-        if (theName)
-            newField[i].name = theName + counter;
-        if (theValue)
-            newField[i].value = "";
-    }
-    var insertHere = document.getElementById('writeroot');
-    insertHere.parentNode.insertBefore(newFields, insertHere);
-}
-
-function callTotal() {
-    moreFields();
-}
+// function setExpenditure() {
+//     let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
+//     let len = expenditureItems.length;
+//     for (i = 0; i < len; i++) {
+//         expenditureItems
+//             .item(i)
+//             .getElementsByClassName("text-muted")
+//             .item(0)
+//             .innerHTML = Math.floor(Math.random() * 100) + "&euro;";
+//     }
+// }
+//
+// function setTotal() {
+//     let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
+//     let len = expenditureItems.length;
+//     let total = 0;
+//     for (i = 0; i < len; i++) {
+//         total += parseInt(expenditureItems
+//             .item(i)
+//             .getElementsByClassName("text-muted")
+//             .item(0)
+//             .innerHTML)
+//     }
+//     document.getElementsByClassName("list-group-item d-flex justify-content-between text-success")
+//         .item(0)
+//         .getElementsByTagName("strong")
+//         .item(1)
+//         .innerHTML = total + "&euro;"
+//
+// }
+//
+// function mainInit() {
+//     getCurrentDate();
+//     setExpenditure();
+//     setTotal();
+// }
+//
+// $(function () {
+//     $('#datepicker').datepicker({
+//         onSelect: function (dateText) {
+//             $('#datepicker2').datepicker("setDate", $(this).datepicker("getDate"));
+//             setDate($(this).datepicker("option", "dateFormat", "dd-mm-yy").val());
+//         }
+//     });
+// });
+//
+// $(function () {
+//     $("#datepicker2").datepicker();
+// });
+//
+// function setDate(date) {
+//     let dates = document.getElementsByName("date");
+//     for (let i = 0; i < dates.length; i++) {
+//         dates.item(i).value = date;
+//     }
+// }
+//
+// function getUrlParams(search) {
+//     let hashes = search.slice(search.indexOf('?') + 1).split('&')
+//     let params = {}
+//     hashes.map(hash => {
+//         let [key, val] = hash.split('=')
+//         params[key] = decodeURIComponent(val)
+//     })
+//
+//     return params
+// }
+//
+// function inputCatInit(urlparams) {
+//     let params = getUrlParams(urlparams);
+//     document.getElementById("getData").innerHTML =
+//         params["category"] + " on " + params["date"];
+//
+// }
+//
+// var counter = 0;
+//
+// function moreFields() {
+//     counter++;
+//     let newFields = document.getElementById('readroot').cloneNode(true);
+//     newFields.id = '';
+//     newFields.style.display = 'block';
+//     let newField = newFields.getElementsByTagName("input")
+//     for (var i = 0; i < newField.length; i++) {
+//         var theName = newField[i].name
+//         var theValue = newField[i].value
+//         if (theName)
+//             newField[i].name = theName + counter;
+//         if (theValue)
+//             newField[i].value = "";
+//     }
+//     var insertHere = document.getElementById('writeroot');
+//     insertHere.parentNode.insertBefore(newFields, insertHere);
+// }
+//
+// function callTotal() {
+//     moreFields();
+// }
 
