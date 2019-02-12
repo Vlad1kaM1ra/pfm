@@ -40,7 +40,15 @@ def index():
     """
     Application main page
     """
-    # User.add_user(User, email="test@gmail.com", hashstring="testhash1")
+    user = User.query.filter_by(id=session["user_id"]).first()
+    print("Current user id={} email={}".format(user.id, user.email))
+
+    expenditures = Expenditure.query.filter_by(user_id=user.id)
+
+    for expenditure in expenditures:
+        category = Category.query.filter_by(id=expenditure.categories_id).first()
+        print("{}\t{}\t{}\t{}".format(category.name,expenditure.date,expenditure.name,expenditure.price))
+
     return render_template("index.html")
 
 
