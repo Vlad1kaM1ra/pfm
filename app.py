@@ -107,13 +107,13 @@ def logout():
 #         else:
 #             # generate hash for entered password
 #             passwordHash = generate_password_hash(request.form.get("password"))
-#
-#
+
+
 #             # check for user exists already
-#
+
 #             if User.query.filter_by(email=request.form.get("email")).count() > 0:
 #                 return apology("User already exist", 403)
-#
+
 #             # add user to db
 #             User.add_user(
 #                 User,
