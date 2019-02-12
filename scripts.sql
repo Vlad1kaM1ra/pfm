@@ -41,7 +41,7 @@ CREATE TABLE expenditures (
     categories_id INTEGER NOT NULL,
     date TEXT NOT NULL,
     name VARCHAR NOT NULL,
-    value INTEGER DEFAULT 0,
+    price INTEGER DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (categories_id) REFERENCES categories (id)
 );
