@@ -7,9 +7,9 @@ function validateLogin() {
         return false;
     } else {
         let response = httpGet(
-        "/check_credentials?email=" + email
-        + "&password="+password)
-        .toString().trim();
+            "/check_credentials?email=" + email
+            + "&password=" + password)
+            .toString().trim();
         if (response == "false") {
             errorMessage.innerText = "Invalid email and/or password";
             return false;
@@ -62,7 +62,7 @@ function getCurrentDate() {
 
     let currentDate = dd + '/' + mm + '/' + yyyy;
 
-    let currentDateDiv  = document.getElementById("currentDate");
+    let currentDateDiv = document.getElementById("currentDate");
 
     if (currentDateDiv != null) {
         currentDateDiv.innerHTML = currentDate;
@@ -105,27 +105,27 @@ function getCurrentDate() {
 //     setExpenditure();
 //     setTotal();
 // }
-//
-// $(function () {
-//     $('#datepicker').datepicker({
-//         onSelect: function (dateText) {
-//             $('#datepicker2').datepicker("setDate", $(this).datepicker("getDate"));
-//             setDate($(this).datepicker("option", "dateFormat", "dd-mm-yy").val());
-//         }
-//     });
-// });
-//
-// $(function () {
-//     $("#datepicker2").datepicker();
-// });
-//
-// function setDate(date) {
-//     let dates = document.getElementsByName("date");
-//     for (let i = 0; i < dates.length; i++) {
-//         dates.item(i).value = date;
-//     }
-// }
-//
+
+$(function () {
+    $('#datepicker').datepicker({
+        onSelect: function (dateText) {
+            $('#datepicker2').datepicker("setDate", $(this).datepicker("getDate"));
+            setDate($(this).datepicker("option", "dateFormat", "dd-mm-yy").val());
+        }
+    });
+});
+
+$(function () {
+    $("#datepicker2").datepicker();
+});
+
+function setDate(date) {
+    let dates = document.getElementsByName("date");
+    for (let i = 0; i < dates.length; i++) {
+        dates.item(i).value = date;
+    }
+}
+
 // function getUrlParams(search) {
 //     let hashes = search.slice(search.indexOf('?') + 1).split('&')
 //     let params = {}

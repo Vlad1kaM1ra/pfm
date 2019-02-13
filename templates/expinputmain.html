@@ -13,31 +13,42 @@
 
         <div class="side-div-wrapper">
             <!--left panel-->
-            <div class="col-md-6 order-md-2 mb-4 div-one">
+            <div class="col-md-8 order-md-2 mb-4 div-one">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Expenditure</span>
                 </h4>
                 <table class="table table-bordered">
                     <tbody>
-                    <tr>
-                        <td>Nutrition</td>
-                        <td>&euro;12</td>
-                        <td>
-                            <form role="form" action="inputcat.html" method="get">
-                                <button class="btn btn-primary btn-sm" type="submit">Add expenditures</button>
-                                <input type="hidden" name="category" value="Nutrition">
-                                <input type="hidden" name="date" value="">
-                            </form>
-                        </td>
-                    </tr>
+                    {% for expenditure in expendituresData %}
+                        <tr>
+                            <td>{{ expenditure[0] }}</td>
+                            <td>&euro;{{ expenditure[1] }}</td>
+                            <td>
+                                <form role="form" action="/" method="get">
+                                    <button class="btn btn-primary btn-sm" type="submit">Add expenditures</button>
+                                    <input type="hidden" name="category" value="{{ expenditure[0] }}">
+                                    <input type="hidden" name="date" value="">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
                     <tr class="text-success">
                         <td colspan="2">Total (&euro;)</td>
-                        <td>&euro;20</td>
+                        <td>&euro; {{ expendituresSum }}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <!--right panel-->
             <div class="col-md-4 order-md-2 mb-4 div-two">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Date</span>
+                </h4>
+                <!--<input type="date" name="bday" onchange="setDate(this.value)">-->
+                Date:
+                <div class="calendar" id="datepicker"></div>
+
+                <p class="calendardiv">Date: <input type="text" id="datepicker2" disabled></p>
 
             </div>
         </div>

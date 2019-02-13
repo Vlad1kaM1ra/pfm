@@ -1,10 +1,7 @@
 import os
-import datetime
 from flask import Flask, session, request, jsonify, redirect
-from flask_session import Session
-from tempfile import mkdtemp
 from flask import render_template
-from helpers import apology, login_required
+from helpers import *
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 from models import *
@@ -19,9 +16,11 @@ db.init_app(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configure session to use filesystem (instead of signed cookies)
-#app.config["SESSION_FILE_DIR"] = mkdtemp()
+# app.config["SESSION_FILE_DIR"] = mkdtemp()
 # app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "memcached"
+
+
 # Set the secret key to some random bytes. Keep this really secret!
 # Session(app)
 
@@ -44,56 +43,8 @@ def index():
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
     print("Current user id={} email={}".format(user.id, user.email))
-
-    # get date period
-    begindate = datetime.datetime.today()
-    begindate = begindate.replace(day=1)
-    begin = begindate.strftime('%Y-%m-%d')
-
-    try:
-        nextmonthdate = begindate.replace(month=begindate.month + 1)
-    except ValueError:
-        if begindate.month == 12:
-            nextmonthdate = begindate.replace(year=begindate.year + 1, month=1)
-
-
-    end = nextmonthdate.strftime('%Y-%m-%d')
-
-    print(begin)
-    print(end)
-
-    # generates expenditures category, sum tuple
-    expendituresData = []
-    expendituresSum = 0
-    categories = Category.query.all()
-    overalSum = 0
-    for category in categories:
-        categorySum = 0
-        expenditures = Expenditure \
-        .query \
-        .filter_by(user_id=user.id) \
-        .filter_by(categories_id=category.id) \
-        .filter(Expenditure.date >= begin) \
-        .filter(Expenditure.date < end) \
-        .all()
-        for expenditure in expenditures:
-            categorySum += expenditure.price
-        expendituresData.append((category.name,categorySum))
-        # accumulates overal sum from all categories
-        expendituresSum += categorySum
-
-    #get income data for period
-    incomes = Income \
-    .query\
-    .filter_by(user_id=user.id)\
-    .filter(Income.date >= begin)\
-    .filter(Income.date < end) \
-    .all()
-
-    incomesTotal = 0
-    for income in incomes:
-        incomesTotal += income.value
-
+    expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
+    incomes, incomesTotal = currentMonthIncomeSummary(user)
 
     return render_template(
         "index.html",
@@ -103,19 +54,27 @@ def index():
         incomesTotal=incomesTotal)
 
 
-@app.route("/inputmain")
+@app.route("/expinputmain")
 @login_required
-def inputmain():
-    return render_template("expinputmain.html")
+def expinputmain():
+    # get current user
+    user = User.query.filter_by(id=session["user_id"]).first()
+    print("Current user id={} email={}".format(user.id, user.email))
+    expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
+
+    return render_template(
+        "expinputmain.html",
+        expendituresData=expendituresData,
+        expendituresSum=expendituresSum)
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
-     # Forget any user_id
+    # Forget any user_id
     session.clear()
 
-     # User reached route via POST (as by submitting a form via POST)
+    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
         # Ensure username was submitted
