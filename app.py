@@ -46,8 +46,21 @@ def index():
     print("Current user id={} email={}".format(user.id, user.email))
 
     # get date period
-    begin = datetime.datetime.today().strftime('%Y-%m') + "-01"
-    end = datetime.datetime.today().strftime('%Y-%m') + "-31"
+    begindate = datetime.datetime.today()
+    begindate = begindate.replace(day=1)
+    begin = begindate.strftime('%Y-%m-%d')
+
+    try:
+        nextmonthdate = begindate.replace(month=begindate.month + 1)
+    except ValueError:
+        if begindate.month == 12:
+            nextmonthdate = begindate.replace(year=begindate.year + 1, month=1)
+
+
+    end = nextmonthdate.strftime('%Y-%m-%d')
+
+    print(begin)
+    print(end)
 
     # generates expenditures category, sum tuple
     expendituresData = []
@@ -61,7 +74,7 @@ def index():
         .filter_by(user_id=user.id) \
         .filter_by(categories_id=category.id) \
         .filter(Expenditure.date >= begin) \
-        .filter(Expenditure.date <= end) \
+        .filter(Expenditure.date < end) \
         .all()
         for expenditure in expenditures:
             categorySum += expenditure.price
@@ -74,7 +87,7 @@ def index():
     .query\
     .filter_by(user_id=user.id)\
     .filter(Income.date >= begin)\
-    .filter(Income.date <= end) \
+    .filter(Income.date < end) \
     .all()
 
     incomesTotal = 0
@@ -93,7 +106,7 @@ def index():
 @app.route("/inputmain")
 @login_required
 def inputmain():
-    return render_template("inputmain.html")
+    return render_template("expinputmain.html")
 
 
 @app.route("/login", methods=["GET", "POST"])

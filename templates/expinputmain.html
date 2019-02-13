@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Data input
+    Expenditure input
 {% endblock %}
 
 {% block main %}
@@ -19,27 +19,27 @@
                 </h4>
                 <table class="table table-bordered">
                     <tbody>
-                         <tr>
-                          <td>Nutrition</td>
-                          <td>&euro;12</td>
-                          <td>
+                    <tr>
+                        <td>Nutrition</td>
+                        <td>&euro;12</td>
+                        <td>
                             <form role="form" action="inputcat.html" method="get">
                                 <button class="btn btn-primary btn-sm" type="submit">Add expenditures</button>
                                 <input type="hidden" name="category" value="Nutrition">
                                 <input type="hidden" name="date" value="">
                             </form>
-                          </td>
-                        </tr>
-                        <tr class="text-success">
-                          <td colspan="2">Total (&euro;)</td>
-                          <td>&euro;20</td>
+                        </td>
+                    </tr>
+                    <tr class="text-success">
+                        <td colspan="2">Total (&euro;)</td>
+                        <td>&euro;20</td>
                     </tbody>
                 </table>
             </div>
             <!--right panel-->
-        <div class="col-md-4 order-md-2 mb-4 div-two">
+            <div class="col-md-4 order-md-2 mb-4 div-two">
 
-        </div>
+            </div>
         </div>
     </main>
 {% endblock %}
