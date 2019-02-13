@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Data input
+{% endblock %}
+
+{% block main %}
+    <main class="login">
+        <div class="side-div-wrapper col-md-4 order-md-2 mb-4">
+            <div class="div-one"><h5 class="mb-3">Summary on:</h5></div>
+            <div class="div-two"><h5 class="mb-3" id="currentDate"></h5></div>
+        </div>
+
+        <div class="side-div-wrapper">
+            <!--left panel-->
+            <div class="col-md-6 order-md-2 mb-4 div-one">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Expenditure</span>
+                </h4>
+                <table class="table table-bordered">
+                    <tbody>
+                         <tr>
+                          <td>Nutrition</td>
+                          <td>&euro;12</td>
+                          <td>
+                            <form role="form" action="inputcat.html" method="get">
+                                <button class="btn btn-primary btn-sm" type="submit">Add expenditures</button>
+                                <input type="hidden" name="category" value="Nutrition">
+                                <input type="hidden" name="date" value="">
+                            </form>
+                          </td>
+                        </tr>
+                        <tr class="text-success">
+                          <td colspan="2">Total (&euro;)</td>
+                          <td>&euro;20</td>
+                    </tbody>
+                </table>
+            </div>
+            <!--right panel-->
+        <div class="col-md-4 order-md-2 mb-4 div-two">
+
+        </div>
+        </div>
+    </main>
+{% endblock %}

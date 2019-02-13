@@ -90,6 +90,12 @@ def index():
         incomesTotal=incomesTotal)
 
 
+@app.route("/inputmain")
+@login_required
+def inputmain():
+    return render_template("inputmain.html")
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
