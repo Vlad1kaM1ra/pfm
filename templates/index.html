@@ -12,65 +12,46 @@
         </div>
 
         <div class="side-div-wrapper">
+            <!--left panel-->
             <div class="col-md-6 order-md-2 mb-4 div-one">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Expenditure</span>
                 </h4>
                 <ul class="list-group mb-3">
+                    {% for expenditure in expendituresData %}
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">Nutrition</h6>
+                            <h6 class="my-0">{{ expenditure[0] }}</h6>
                         </div>
-                        <span class="text-muted">&euro;12</span>
+                        <span class="text-muted">&euro;{{ expenditure[1] }}</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Domestic</h6>
-                        </div>
-                        <span class="text-muted">&euro;8</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Transport</h6>
-                        </div>
-                        <span class="text-muted">&euro;5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Accounts</h6>
-                        </div>
-                        <span class="text-muted">&euro;5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Education</h6>
-                        </div>
-                        <span class="text-muted">&euro;5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Medicines</h6>
-                        </div>
-                        <span class="text-muted">&euro;5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Pets</h6>
-                        </div>
-                        <span class="text-muted">&euro;5</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Misc</h6>
-                        </div>
-                        <span class="text-muted">&euro;5</span>
-                    </li>
+                    {% endfor %}
                     <li class="list-group-item d-flex justify-content-between text-success">
-                        <span><strong>Total (&euro;)</strong></span>
-                        <strong>&euro;20</strong>
-                    </li>
+                    <span><strong>Total (&euro;)</strong></span>
+                    <strong>&euro;{{ expendituresSum }}</strong>
+                </li>
                 </ul>
             </div>
+            <!--right panel-->
+        <div class="col-md-4 order-md-2 mb-4 div-two">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Income</span>
+            </h4>
+            <ul class="list-group mb-3">
+                {% for income in incomes %}
+                 <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">{{ income.type }}</h6>
+                    </div>
+                    <span class="text-muted">&euro;{{ income.value  }}</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between text-success">
+                    <span><strong>Total (&euro;)</strong></span>
+                    <strong>&euro;{{ incomesTotal }}</strong>
+                </li>
+            </ul>
+        </div>
         </div>
     </main>
 {% endblock %}

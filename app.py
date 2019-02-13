@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import Flask, session, request, jsonify, redirect
 from flask_session import Session
 from tempfile import mkdtemp
@@ -40,16 +41,53 @@ def index():
     """
     Application main page
     """
+    # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
     print("Current user id={} email={}".format(user.id, user.email))
 
-    expenditures = Expenditure.query.filter_by(user_id=user.id)
+    # get date period
+    begin = datetime.datetime.today().strftime('%Y-%m') + "-01"
+    end = datetime.datetime.today().strftime('%Y-%m') + "-31"
 
-    for expenditure in expenditures:
-        category = Category.query.filter_by(id=expenditure.categories_id).first()
-        print("{}\t{}\t{}\t{}".format(category.name,expenditure.date,expenditure.name,expenditure.price))
+    # generates expenditures category, sum tuple
+    expendituresData = []
+    expendituresSum = 0
+    categories = Category.query.all()
+    overalSum = 0
+    for category in categories:
+        categorySum = 0
+        expenditures = Expenditure \
+        .query \
+        .filter_by(user_id=user.id) \
+        .filter_by(categories_id=category.id) \
+        .filter(Expenditure.date >= begin) \
+        .filter(Expenditure.date <= end) \
+        .all()
+        for expenditure in expenditures:
+            categorySum += expenditure.price
+        expendituresData.append((category.name,categorySum))
+        # accumulates overal sum from all categories
+        expendituresSum += categorySum
 
-    return render_template("index.html")
+    #get income data for period
+    incomes = Income \
+    .query\
+    .filter_by(user_id=user.id)\
+    .filter(Income.date >= begin)\
+    .filter(Income.date <= end) \
+    .all()
+
+    incomesTotal = 0
+    for income in incomes:
+        incomesTotal += income.value
+
+
+    return render_template(
+        "index.html",
+        expendituresData=expendituresData,
+        expendituresSum=expendituresSum,
+        incomes=incomes,
+        incomesTotal=incomesTotal)
 
 
 @app.route("/login", methods=["GET", "POST"])
