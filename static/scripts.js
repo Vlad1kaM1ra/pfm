@@ -65,7 +65,7 @@ function getCurrentDate() {
     return currentDate;
 }
 
-function setSummaryDate(){
+function setSummaryDate() {
     let currentDate = getCurrentDate();
 
     let currentDateDiv = document.getElementById("currentDate");
@@ -76,49 +76,12 @@ function setSummaryDate(){
 }
 
 function checkDateOnExpdeditureMainForm() {
-     let date = document.getElementsByName("date").item(0);
-     if (date.value == "") {
-         setDate(getCurrentDate())
-     }
-     return true;
+    let date = document.getElementsByName("date").item(0);
+    if (date.value == "") {
+        setDate(getCurrentDate())
+    }
+    return true;
 }
-
-// function setExpenditure() {
-//     let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
-//     let len = expenditureItems.length;
-//     for (i = 0; i < len; i++) {
-//         expenditureItems
-//             .item(i)
-//             .getElementsByClassName("text-muted")
-//             .item(0)
-//             .innerHTML = Math.floor(Math.random() * 100) + "&euro;";
-//     }
-// }
-//
-// function setTotal() {
-//     let expenditureItems = document.getElementsByClassName("justify-content-between lh-condensed");
-//     let len = expenditureItems.length;
-//     let total = 0;
-//     for (i = 0; i < len; i++) {
-//         total += parseInt(expenditureItems
-//             .item(i)
-//             .getElementsByClassName("text-muted")
-//             .item(0)
-//             .innerHTML)
-//     }
-//     document.getElementsByClassName("list-group-item d-flex justify-content-between text-success")
-//         .item(0)
-//         .getElementsByTagName("strong")
-//         .item(1)
-//         .innerHTML = total + "&euro;"
-//
-// }
-//
-// function mainInit() {
-//     getCurrentDate();
-//     setExpenditure();
-//     setTotal();
-// }
 
 $(function () {
     $('#datepicker').datepicker({
