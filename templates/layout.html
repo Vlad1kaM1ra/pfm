@@ -23,7 +23,7 @@
     <script src="/static/scripts.js"></script>
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body onload="getCurrentDate()">
+<body onload="commonInit(window.location.search)">
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <a class="navbar-brand" href="/">PFM</a>
     {% if session.user_id %}

@@ -67,6 +67,24 @@ def expinputmain():
         expendituresData=expendituresData,
         expendituresSum=expendituresSum)
 
+@app.route("/expinputcat",methods=["GET", "POST"])
+@login_required
+def expinputcat():
+    if request.method == "POST":
+        names = request.form.getlist('name[]')
+        prices = request.form.getlist('price[]')
+        categoryName = request.form.get('category')
+        date = request.form.get('date')
+        date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+        user = User.query.filter_by(id=session["user_id"]).first()
+        category = Category.query.filter_by(name=categoryName).first()
+
+        for i in range(len(names)):
+            Expenditure.add_expenditure(Expenditure,user,category,date,names[i],prices[i])
+        return redirect("/expinputmain")
+    else:
+        return render_template("expinputcat.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

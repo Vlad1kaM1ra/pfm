@@ -45,6 +45,6 @@ class Expenditure(db.Model):
     price = db.Column(db.Integer, nullable=False)
 
     def add_expenditure(self,user, category, date, name, price):
-        expenditure = Expenditure(user_id=user.id, category_id=category.id, date=date, name=name, price=price)
+        expenditure = Expenditure(user_id=user.id, categories_id=category.id, date=date, name=name, price=price)
         db.session.add(expenditure)
         db.session.commit()

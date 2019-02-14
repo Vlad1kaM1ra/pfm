@@ -60,13 +60,27 @@ function getCurrentDate() {
         mm = '0' + mm;
     }
 
-    let currentDate = dd + '/' + mm + '/' + yyyy;
+    let currentDate = yyyy + '-' + mm + '-' + dd;
+
+    return currentDate;
+}
+
+function setSummaryDate(){
+    let currentDate = getCurrentDate();
 
     let currentDateDiv = document.getElementById("currentDate");
 
     if (currentDateDiv != null) {
         currentDateDiv.innerHTML = currentDate;
     }
+}
+
+function checkDateOnExpdeditureMainForm() {
+     let date = document.getElementsByName("date").item(0);
+     if (date.value == "") {
+         setDate(getCurrentDate())
+     }
+     return true;
 }
 
 // function setExpenditure() {
@@ -110,7 +124,7 @@ $(function () {
     $('#datepicker').datepicker({
         onSelect: function (dateText) {
             $('#datepicker2').datepicker("setDate", $(this).datepicker("getDate"));
-            setDate($(this).datepicker("option", "dateFormat", "dd-mm-yy").val());
+            setDate($(this).datepicker("option", "dateFormat", "yy-mm-dd").val());
         }
     });
 });
@@ -126,45 +140,48 @@ function setDate(date) {
     }
 }
 
-// function getUrlParams(search) {
-//     let hashes = search.slice(search.indexOf('?') + 1).split('&')
-//     let params = {}
-//     hashes.map(hash => {
-//         let [key, val] = hash.split('=')
-//         params[key] = decodeURIComponent(val)
-//     })
-//
-//     return params
-// }
-//
-// function inputCatInit(urlparams) {
-//     let params = getUrlParams(urlparams);
-//     document.getElementById("getData").innerHTML =
-//         params["category"] + " on " + params["date"];
-//
-// }
-//
-// var counter = 0;
-//
-// function moreFields() {
-//     counter++;
-//     let newFields = document.getElementById('readroot').cloneNode(true);
-//     newFields.id = '';
-//     newFields.style.display = 'block';
-//     let newField = newFields.getElementsByTagName("input")
-//     for (var i = 0; i < newField.length; i++) {
-//         var theName = newField[i].name
-//         var theValue = newField[i].value
-//         if (theName)
-//             newField[i].name = theName + counter;
-//         if (theValue)
-//             newField[i].value = "";
-//     }
-//     var insertHere = document.getElementById('writeroot');
-//     insertHere.parentNode.insertBefore(newFields, insertHere);
-// }
-//
-// function callTotal() {
-//     moreFields();
-// }
+function getUrlParams(search) {
+    let hashes = search.slice(search.indexOf('?') + 1).split('&')
+    let params = {}
+    hashes.map(hash => {
+        let [key, val] = hash.split('=')
+        params[key] = decodeURIComponent(val)
+    })
+
+    return params
+}
+
+function inputCatInit(urlparams) {
+    let params = getUrlParams(urlparams);
+    document.getElementById("getData").innerHTML =
+        params["category"] + " on " + params["date"];
+    document.getElementById("category").value = params["category"];
+    document.getElementById("date").value = params["date"];
+}
+
+function commonInit(params) {
+    setSummaryDate();
+    inputCatInit(params);
+}
+
+var counter = 0;
+
+function moreFields() {
+    counter++;
+    let newFields = document.getElementById('readroot').cloneNode(true);
+    newFields.id = '';
+    newFields.style.display = 'block';
+    let newField = newFields.getElementsByTagName("input")
+    for (var i = 0; i < newField.length; i++) {
+        var theValue = newField[i].value
+        if (theValue)
+            newField[i].value = "";
+    }
+    var insertHere = document.getElementById('writeroot');
+    insertHere.parentNode.insertBefore(newFields, insertHere);
+}
+
+function callTotal() {
+    moreFields();
+}
 
