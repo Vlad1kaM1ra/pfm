@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Income
+{% endblock %}
+
+{% block main %}
+    <main class="login">
+        <div class="side-div-wrapper col-md-4 order-md-2 mb-4">
+            <div class="div-one"><h5 class="mb-3">Summary on:</h5></div>
+            <div class="div-two"><h5 class="mb-3" id="currentDate"></h5></div>
+        </div>
+
+        <div class="side-div-wrapper">
+            <!--left panel-->
+            <div class="col-md-8 order-md-2 mb-4 div-one">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Income</span>
+                </h4>
+                <table class="table table-bordered">
+                    <tbody>
+                    {% for income in incomes %}
+                        <tr>
+                            <td>{{ income.type }}</td>
+                            <td>&euro;{{ income.value }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="text-success">
+                        <td>Total (&euro;)</td>
+                        <td>&euro; {{ incomesTotal }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <form method="post" action="/incomeinputmain" onsubmit="return checkDateOnExpdeditureMainForm();">
+                <ul class="list-group mb-3">
+                    <li id="readroot" class="list-group-item d-flex justify-content-between lh-condensed">
+                        <span>type: </span><span><input type="text" name="type"></span>
+                        <span>value:</span><span><input name="value" type="number" min="0" step="any"
+                                                        max="10000"></span>
+                    </li>
+                    <li id="writeroot" class="list-group-item d-flex justify-content-between text-success">
+                        <span><button class="btn btn-primary btn-sm" type="submit">Submit data</button></span>
+                    </li>
+                </ul>
+                <input type="hidden" name="date" id="date" value="">
+            </form>
+            </div>
+            <!--right panel-->
+            <div class="col-md-4 order-md-2 mb-4 div-two">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Date</span>
+                </h4>
+                <!--<input type="date" name="bday" onchange="setDate(this.value)">-->
+                Date:
+                <div class="calendar" id="datepicker"></div>
+
+                <p class="calendardiv">Date: <input type="text" id="datepicker2" disabled></p>
+
+            </div>
+        </div>
+    </main>
+{% endblock %}

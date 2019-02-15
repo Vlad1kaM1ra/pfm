@@ -67,7 +67,32 @@ def expinputmain():
         expendituresData=expendituresData,
         expendituresSum=expendituresSum)
 
-@app.route("/expinputcat",methods=["GET", "POST"])
+
+@app.route("/incomeinputmain", methods=["GET", "POST"])
+@login_required
+def incomeinputmain():
+    # get current user
+    user = User.query.filter_by(id=session["user_id"]).first()
+
+    if request.method == "POST":
+        date = request.form.get('date')
+        print(date)
+        type = request.form.get('type')
+        print(type)
+        value = request.form.get('value')
+        print(value)
+
+        return redirect("/incomeinputmain")
+    else:
+        incomes, incomesTotal = currentMonthIncomeSummary(user)
+
+        return render_template(
+            "incomeinputmain.html",
+            incomes=incomes,
+            incomesTotal=incomesTotal)
+
+
+@app.route("/expinputcat", methods=["GET", "POST"])
 @login_required
 def expinputcat():
     if request.method == "POST":
