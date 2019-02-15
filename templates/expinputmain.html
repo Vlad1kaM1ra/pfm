@@ -26,7 +26,13 @@
                             <td>
                                 <form role="form" action="/expinputcat" method="get"
                                       onsubmit="return checkDateOnExpdeditureMainForm();">
+                                    <span>
                                     <button class="btn btn-primary btn-sm" type="submit">Add expenditures</button>
+                                    </span>
+                                    <span>
+                                    <button class="btn btn-primary btn-sm" type="submit"
+                                            formaction="/expeditcat">Edit expenditures</button>
+                                    </span>
                                     <input type="hidden" name="category" value="{{ expenditure[0] }}">
                                     <input type="hidden" name="date" value="">
                                 </form>

@@ -79,7 +79,7 @@ def incomeinputmain():
         date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
         type = request.form.get('type')
         value = request.form.get('value')
-        Income.add_income(Income,user,date,type,value)
+        Income.add_income(Income, user, date, type, value)
         return redirect("/incomeinputmain")
     else:
         incomes, incomesTotal = currentMonthIncomeSummary(user)
@@ -103,10 +103,16 @@ def expinputcat():
         category = Category.query.filter_by(name=categoryName).first()
 
         for i in range(len(names)):
-            Expenditure.add_expenditure(Expenditure,user,category,date,names[i],prices[i])
+            Expenditure.add_expenditure(Expenditure, user, category, date, names[i], prices[i])
         return redirect("/expinputmain")
     else:
         return render_template("expinputcat.html")
+
+
+@app.route("/expeditcat", methods=["GET", "POST"])
+@login_required
+def expeditcat():
+    return render_template("expeditcat.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
