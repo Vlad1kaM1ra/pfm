@@ -76,12 +76,10 @@ def incomeinputmain():
 
     if request.method == "POST":
         date = request.form.get('date')
-        print(date)
+        date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
         type = request.form.get('type')
-        print(type)
         value = request.form.get('value')
-        print(value)
-
+        Income.add_income(Income,user,date,type,value)
         return redirect("/incomeinputmain")
     else:
         incomes, incomesTotal = currentMonthIncomeSummary(user)
