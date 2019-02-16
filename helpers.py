@@ -80,6 +80,19 @@ def currentMonthExpenditureSummary(user):
     return [expendituresData, expendituresSum]
 
 
+def expenditureSummary(user, date, category):
+    expenditureData = []
+    expenditures = Expenditure \
+        .query\
+        .filter_by(user_id=user.id) \
+        .filter_by(categories_id=category.id) \
+        .filter_by(date=date) \
+        .all()
+    for expenditure in expenditures:
+        expenditureData.append((expenditure.name, expenditure.price, expenditure.id))
+    return expenditureData
+
+
 def currentMonthIncomeSummary(user):
     begin, end = getDateDiapazon()
     # get income data for period

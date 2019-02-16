@@ -12,22 +12,23 @@
             </h4>
             <table class="table table-bordered">
                 <tbody>
+                {% for expenditure in expendituresData %}
                 <tr>
-                    <td>Name</td>
-                    <td>Price</td>
+                    <td>{{ expenditure[0] }}</td>
+                    <td>{{ expenditure[1] }}</td>
                     <td>
                         <form role="form" action="/delexpenditure" method="post"
                               onsubmit="return checkDateOnExpdeditureMainForm();">
                                 <span>
                                     <button class="btn btn-primary btn-sm" type="submit">Delete</button>
                                 </span>
-                            <input type="hidden" name="category" value="category">
+                            <input type="hidden" name="category" value={{ categoryName }}>
                             <input type="hidden" name="date" value="">
-                            <input type="hidden" name="name" value="name">
-                            <input type="hidden" name="price" value="price">
+                            <input type="hidden" name="id" value={{ expenditure[2] }}>
                         </form>
                     </td>
                 </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
