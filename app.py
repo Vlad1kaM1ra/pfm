@@ -116,10 +116,10 @@ def expinputcat():
     category = Category.query.filter_by(name=categoryName).first()
 
     for i in range(len(names)):
-        if not names[i]  or not prices[i]:
+        if not names[i] or not prices[i]:
             return apology("Not provided name or price", 403)
         Expenditure.add_expenditure(Expenditure, user, category, date, names[i], prices[i])
-    return redirect("/expeditcat?category="+categoryName+"&date="+dates)
+    return redirect("/expeditcat?category=" + categoryName + "&date=" + dates)
 
 
 # edit expenditure page controller
@@ -152,6 +152,18 @@ def delexpenditure():
     Expenditure.del_expenditure(Expenditure, expenditureId)
 
     return redirect("/expeditcat?category=" + category + "&date=" + date)
+
+
+@app.route("/expreview", methods=["GET", "POST"])
+@login_required
+def expreview():
+    user = User.query.filter_by(id=session["user_id"]).first()
+    begin = request.form.get("startdate")
+    end = request.form.get("enddate")
+    expendituresData, expendituresSum = expenditureReview(user, begin, end)
+    print(expendituresData)
+    print(expendituresSum)
+    return render_template("expreview.html")
 
 
 @app.route("/login", methods=["GET", "POST"])

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Expenditure review
+{% endblock %}
+
+{% block main %}
+    <main class="login">
+
+        <div class="side-div-wrapper">
+            <!--left panel-->
+            <div class="col-md-6 order-md-2 mb-4 div-one">
+                <form role="form" action="/expreview" method="post">
+                    <span>
+                        <label for="start">Start date:</label>
+                        <input type="date" id="start" name="startdate">
+                    </span>
+                    <span>
+                        <label for="end">Start date:</label>
+                        <input type="date" id="end" name="enddate">
+                    </span>
+                    <div>
+                        <button class="btn btn-primary btn-sm" type="submit">Show</button>
+                    </div>
+                </form>
+            </div>
+            <!--right panel-->
+            <div class="col-md-4 order-md-2 mb-4 div-two">
+
+            </div>
+        </div>
+    </main>
+{% endblock %}

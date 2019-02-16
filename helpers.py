@@ -80,10 +80,35 @@ def currentMonthExpenditureSummary(user):
     return [expendituresData, expendituresSum]
 
 
+def expenditureReview(user, begin, end):
+    categories = Category.query.all()
+    expendituresData = []
+    expendituresSum = 0
+    if not begin and not end:
+        begindate = datetime.datetime.today()
+        begin = begindate.strftime('%Y-%m-%d')
+        for category in categories:
+            categorySum = 0
+            expenditures = Expenditure \
+                .query \
+                .filter_by(user_id=user.id) \
+                .filter_by(categories_id=category.id) \
+                .filter_by(date=begin) \
+                .all()
+            for expenditure in expenditures:
+                categorySum += expenditure.price
+            expendituresData.append((category.name, categorySum))
+            # accumulates overal sum from all categories
+            expendituresSum += categorySum
+        return [expendituresData, expendituresSum]
+    else:
+        return [0, 0]
+
+
 def expenditureSummary(user, date, category):
     expenditureData = []
     expenditures = Expenditure \
-        .query\
+        .query \
         .filter_by(user_id=user.id) \
         .filter_by(categories_id=category.id) \
         .filter_by(date=date) \
