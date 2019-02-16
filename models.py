@@ -34,6 +34,11 @@ class Income(db.Model):
         db.session.add(income)
         db.session.commit()
 
+    def del_income(self, income_id):
+        income = Income.query.filter_by(id=income_id).first()
+        db.session.delete(income)
+        db.session.commit()
+
 
 class Expenditure(db.Model):
     __tablename__ = "expenditures"

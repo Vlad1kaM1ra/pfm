@@ -54,6 +54,7 @@ def index():
         incomesTotal=incomesTotal)
 
 
+# expenditure input main page controller
 @app.route("/expinputmain")
 @login_required
 def expinputmain():
@@ -68,6 +69,7 @@ def expinputmain():
         expendituresSum=expendituresSum)
 
 
+# income input main page controller
 @app.route("/incomeinputmain", methods=["GET", "POST"])
 @login_required
 def incomeinputmain():
@@ -90,6 +92,16 @@ def incomeinputmain():
             incomesTotal=incomesTotal)
 
 
+@app.route("/incomedelete", methods=["POST"])
+@login_required
+def incomedelete():
+    # get current user
+    id = request.form.get("id")
+    Income.del_income(Income, id)
+    return redirect("/incomeinputmain")
+
+
+# input expenditures items to concrete category
 @app.route("/expinputcat", methods=["GET", "POST"])
 @login_required
 def expinputcat():
@@ -109,6 +121,7 @@ def expinputcat():
         return render_template("expinputcat.html")
 
 
+# edit expenditure page controller
 @app.route("/expeditcat", methods=["GET", "POST"])
 @login_required
 def expeditcat():
@@ -127,19 +140,17 @@ def expeditcat():
     )
 
 
-@app.route("/delexpenditure", methods=["GET", "POST"])
+# delete expenditure end point
+@app.route("/delexpenditure", methods=["POST"])
 @login_required
 def delexpenditure():
-    if request.method == "POST":
-        date = request.form.get("date")
-        category = request.form.get("category")
-        expenditureId = request.form.get("id")
+    date = request.form.get("date")
+    category = request.form.get("category")
+    expenditureId = request.form.get("id")
 
-        Expenditure.del_expenditure(Expenditure, expenditureId)
+    Expenditure.del_expenditure(Expenditure, expenditureId)
 
-        return redirect("/expeditcat?category=" + category + "&date=" + date)
-    else:
-        return render_template("expeditcat.html")
+    return redirect("/expeditcat?category=" + category + "&date=" + date)
 
 
 @app.route("/login", methods=["GET", "POST"])

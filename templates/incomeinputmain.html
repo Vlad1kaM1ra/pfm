@@ -23,10 +23,16 @@
                         <tr>
                             <td>{{ income.type }}</td>
                             <td>&euro;{{ income.value }}</td>
+                        <td>
+                            <form method="post" action="/incomedelete">
+                                <span><button class="btn btn-primary btn-sm" type="submit">Delete</button></span>
+                                <input type="hidden" name="id" id="date" value="{{ income.id }}">
+                            </form>
+                        </td>
                         </tr>
                     {% endfor %}
                     <tr class="text-success">
-                        <td>Total (&euro;)</td>
+                        <td colspan="2">Total (&euro;)</td>
                         <td>&euro; {{ incomesTotal }}</td>
                     </tr>
                     </tbody>
