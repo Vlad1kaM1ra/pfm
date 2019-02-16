@@ -112,6 +112,7 @@ def expinputcat():
 @app.route("/expeditcat", methods=["GET", "POST"])
 @login_required
 def expeditcat():
+
     return render_template("expeditcat.html")
 
 
