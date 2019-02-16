@@ -78,7 +78,35 @@ function setSummaryDate() {
 function checkDateOnExpdeditureMainForm() {
     let date = document.getElementsByName("date").item(0);
     if (date.value == "") {
-        setDate(getCurrentDate())
+        setDate(getCurrentDate());
+    }
+    return true;
+}
+
+function checkExpenditureData() {
+    let names = document.getElementsByName("name[]");
+    let prices = document.getElementsByName("price[]");
+    let errorMessage = document.getElementsByClassName("error").item(0);
+    for(let i = 0; i < names.length; i++) {
+        if (names.item(i).value == "") {
+            errorMessage.innerText = "Name must not be empty";
+            return false;
+        }
+        if (prices.item(i).value == "") {
+            errorMessage.innerText = "Price must not be empty";
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkIncomeData() {
+    let errorMessage = document.getElementsByClassName("error").item(0);
+    let type = document.getElementsByName("type").item(0);
+    let value = document.getElementsByName("value").item(0);
+    if (value.value == "" || type.value == "") {
+        errorMessage.innerText = "Type and value must be provided"
+        return false;
     }
     return true;
 }
@@ -147,4 +175,5 @@ function moreFields() {
 function callTotal() {
     moreFields();
 }
+
 

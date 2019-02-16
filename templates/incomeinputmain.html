@@ -23,12 +23,12 @@
                         <tr>
                             <td>{{ income.type }}</td>
                             <td>&euro;{{ income.value }}</td>
-                        <td>
-                            <form method="post" action="/incomedelete">
-                                <span><button class="btn btn-primary btn-sm" type="submit">Delete</button></span>
-                                <input type="hidden" name="id" id="date" value="{{ income.id }}">
-                            </form>
-                        </td>
+                            <td>
+                                <form method="post" action="/incomedelete">
+                                    <span><button class="btn btn-primary btn-sm" type="submit">Delete</button></span>
+                                    <input type="hidden" name="id" id="date" value="{{ income.id }}">
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                     <tr class="text-success">
@@ -37,19 +37,21 @@
                     </tr>
                     </tbody>
                 </table>
-                <form method="post" action="/incomeinputmain" onsubmit="return checkDateOnExpdeditureMainForm();">
-                <ul class="list-group mb-3">
-                    <li id="readroot" class="list-group-item d-flex justify-content-between lh-condensed">
-                        <span>type: </span><span><input type="text" name="type"></span>
-                        <span>value:</span><span><input name="value" type="number" min="0" step="any"
-                                                        max="10000"></span>
-                    </li>
-                    <li id="writeroot" class="list-group-item d-flex justify-content-between text-success">
-                        <span><button class="btn btn-primary btn-sm" type="submit">Submit data</button></span>
-                    </li>
-                </ul>
-                <input type="hidden" name="date" id="date" value="">
-            </form>
+                <form method="post" action="/incomeinputmain"
+                      onsubmit="return checkDateOnExpdeditureMainForm() && checkIncomeData();">
+                    <ul class="list-group mb-3">
+                        <li id="readroot" class="list-group-item d-flex justify-content-between lh-condensed">
+                            <span>type: </span><span><input type="text" name="type"></span>
+                            <span>value:</span><span><input name="value" type="number" min="0" step="any"
+                                                            max="10000"></span>
+                        </li>
+                        <li id="writeroot" class="list-group-item d-flex justify-content-between text-success">
+                            <span><button class="btn btn-primary btn-sm" type="submit">Submit data</button></span>
+                        </li>
+                    </ul>
+                    <input type="hidden" name="date" id="date" value="">
+                </form>
+                <div class="error form-group"></div>
             </div>
             <!--right panel-->
             <div class="col-md-4 order-md-2 mb-4 div-two">

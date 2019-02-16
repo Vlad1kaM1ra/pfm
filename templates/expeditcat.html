@@ -31,7 +31,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <form method="post" action="/expinputcat">
+            <form method="post" action="/expinputcat" onsubmit="return checkExpenditureData();">
                 <ul class="list-group mb-3">
                     <li id="readroot" class="list-group-item d-flex justify-content-between lh-condensed">
                         <span>name: </span><span><input type="text" name="name[]"></span>
@@ -47,6 +47,7 @@
                 <input type="hidden" name="category" id="category" value="">
                 <input type="hidden" name="date" id="date" value="">
             </form>
+            <div class="error form-group"></div>
         </div>
     </main>
 {% endblock %}

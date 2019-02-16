@@ -81,6 +81,8 @@ def incomeinputmain():
         date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
         type = request.form.get('type')
         value = request.form.get('value')
+        if not type or not value:
+            return apology("Not provided type or value", 403)
         Income.add_income(Income, user, date, type, value)
         return redirect("/incomeinputmain")
     else:
@@ -114,6 +116,8 @@ def expinputcat():
     category = Category.query.filter_by(name=categoryName).first()
 
     for i in range(len(names)):
+        if not names[i]  or not prices[i]:
+            return apology("Not provided name or price", 403)
         Expenditure.add_expenditure(Expenditure, user, category, date, names[i], prices[i])
     return redirect("/expeditcat?category="+categoryName+"&date="+dates)
 
