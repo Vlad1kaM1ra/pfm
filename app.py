@@ -102,27 +102,24 @@ def incomedelete():
 
 
 # input expenditures items to concrete category
-@app.route("/expinputcat", methods=["GET", "POST"])
+@app.route("/expinputcat", methods=["POST"])
 @login_required
 def expinputcat():
-    if request.method == "POST":
-        names = request.form.getlist('name[]')
-        prices = request.form.getlist('price[]')
-        categoryName = request.form.get('category')
-        date = request.form.get('date')
-        date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
-        user = User.query.filter_by(id=session["user_id"]).first()
-        category = Category.query.filter_by(name=categoryName).first()
+    names = request.form.getlist('name[]')
+    prices = request.form.getlist('price[]')
+    categoryName = request.form.get('category')
+    dates = request.form.get('date')
+    date = datetime.datetime.strptime(dates, '%Y-%m-%d').date()
+    user = User.query.filter_by(id=session["user_id"]).first()
+    category = Category.query.filter_by(name=categoryName).first()
 
-        for i in range(len(names)):
-            Expenditure.add_expenditure(Expenditure, user, category, date, names[i], prices[i])
-        return redirect("/expinputmain")
-    else:
-        return render_template("expinputcat.html")
+    for i in range(len(names)):
+        Expenditure.add_expenditure(Expenditure, user, category, date, names[i], prices[i])
+    return redirect("/expeditcat?category="+categoryName+"&date="+dates)
 
 
 # edit expenditure page controller
-@app.route("/expeditcat", methods=["GET", "POST"])
+@app.route("/expeditcat", methods=["GET"])
 @login_required
 def expeditcat():
     user = User.query.filter_by(id=session["user_id"]).first()

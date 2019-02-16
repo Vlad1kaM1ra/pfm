@@ -13,24 +13,40 @@
             <table class="table table-bordered">
                 <tbody>
                 {% for expenditure in expendituresData %}
-                <tr>
-                    <td>{{ expenditure[0] }}</td>
-                    <td>{{ expenditure[1] }}</td>
-                    <td>
-                        <form role="form" action="/delexpenditure" method="post"
-                              onsubmit="return checkDateOnExpdeditureMainForm();">
+                    <tr>
+                        <td>{{ expenditure[0] }}</td>
+                        <td>{{ expenditure[1] }}</td>
+                        <td>
+                            <form role="form" action="/delexpenditure" method="post"
+                                  onsubmit="return checkDateOnExpdeditureMainForm();">
                                 <span>
                                     <button class="btn btn-primary btn-sm" type="submit">Delete</button>
                                 </span>
-                            <input type="hidden" name="category" value={{ categoryName }}>
-                            <input type="hidden" name="date" value="">
-                            <input type="hidden" name="id" value={{ expenditure[2] }}>
-                        </form>
-                    </td>
-                </tr>
+                                <input type="hidden" name="category" value={{ categoryName }}>
+                                <input type="hidden" name="date" value="">
+                                <input type="hidden" name="id" value={{ expenditure[2] }}>
+                            </form>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            <form method="post" action="/expinputcat">
+                <ul class="list-group mb-3">
+                    <li id="readroot" class="list-group-item d-flex justify-content-between lh-condensed">
+                        <span>name: </span><span><input type="text" name="name[]"></span>
+                        <span>price:</span><span><input name="price[]" type="number" min="0" step="any"
+                                                        max="10000"></span>
+                    </li>
+                    <li id="writeroot" class="list-group-item d-flex justify-content-between text-success">
+                        <span><button class="btn btn-primary btn-sm" type="submit">Submit data</button></span>
+                        <span><button class="btn btn-primary btn-sm" type="button"
+                                      onclick="moreFields()">Add item</button></span>
+                    </li>
+                </ul>
+                <input type="hidden" name="category" id="category" value="">
+                <input type="hidden" name="date" id="date" value="">
+            </form>
         </div>
     </main>
 {% endblock %}
