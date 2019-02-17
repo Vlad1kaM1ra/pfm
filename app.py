@@ -42,7 +42,6 @@ def index():
     """
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
-    print("Current user id={} email={}".format(user.id, user.email))
     expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
     incomes, incomesTotal = currentMonthIncomeSummary(user)
     balance = incomesTotal - expendituresSum
@@ -62,7 +61,6 @@ def index():
 def expinputmain():
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
-    print("Current user id={} email={}".format(user.id, user.email))
     expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
 
     return render_template(
@@ -162,9 +160,10 @@ def expreview():
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
     expendituresData, expendituresSum = expenditureReview(user, begin, end)
-    print(expendituresData)
-    print(expendituresSum)
-    return render_template("expreview.html")
+    return render_template(
+        "expreview.html",
+        expendituresData=expendituresData,
+        expendituresSum=expendituresSum)
 
 
 @app.route("/login", methods=["GET", "POST"])

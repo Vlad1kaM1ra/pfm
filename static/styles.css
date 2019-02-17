@@ -1,10 +1,8 @@
-main
-{
+main {
     padding-top: 20px;
 }
 
-.login
-{
+.login {
     padding-top: 100px;
 }
 
@@ -15,39 +13,40 @@ main
     max-width: 36%;
 }
 
-footer
-{
+footer {
     position: fixed;
     bottom: 0;
 }
-.error
-{
+
+.error {
     color: red;
     font-size: small;
 }
 
-.right
-{
+.right {
     right: 150px;
 }
 
 .side-div-wrapper {
     overflow: hidden; /* will contain if #first is longer than #second */
 }
+
 .div-one {
-    float:left; /* add this */
+    float: left; /* add this */
     border: 1px solid white;
 }
+
 .div-two {
     border: 1px solid white;
     overflow: hidden; /* if you don't want #second to wrap below #first */
 }
+
 .calendar {
     width: 30%;
     font-size: 18px;
 }
-.calendardiv
-{
+
+.calendardiv {
     padding-top: 5px;
 }
 

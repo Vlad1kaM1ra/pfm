@@ -101,6 +101,22 @@ def expenditureReview(user, begin, end):
             # accumulates overal sum from all categories
             expendituresSum += categorySum
         return [expendituresData, expendituresSum]
+    elif not end:
+        date = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
+        for category in categories:
+            categorySum = 0
+            expenditures = Expenditure \
+                .query \
+                .filter_by(user_id=user.id) \
+                .filter_by(categories_id=category.id) \
+                .filter_by(date=date) \
+                .all()
+            for expenditure in expenditures:
+                categorySum += expenditure.price
+            expendituresData.append((category.name, categorySum))
+            # accumulates overal sum from all categories
+            expendituresSum += categorySum
+        return [expendituresData, expendituresSum]
     else:
         return [0, 0]
 

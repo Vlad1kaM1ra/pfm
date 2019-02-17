@@ -13,16 +13,36 @@
                 <form role="form" action="/expreview" method="post">
                     <span>
                         <label for="start">Start date:</label>
-                        <input type="date" id="start" name="startdate">
+                        <input id="date" type="date" id="start" name="startdate">
                     </span>
                     <span>
                         <label for="end">Start date:</label>
-                        <input type="date" id="end" name="enddate">
+                        <input id="date1" type="date" id="end" name="enddate">
                     </span>
-                    <div>
+                    <span>
                         <button class="btn btn-primary btn-sm" type="submit">Show</button>
-                    </div>
+                    </span>
                 </form>
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Expenditure</span>
+                </h4>
+                <table class="table table-bordered">
+                    <tbody>
+                    {% for expenditure in expendituresData %}
+                        <tr>
+                            <td>{{ expenditure[0] }}</td>
+                            <td>&euro;{{ expenditure[1] }}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" type="button">Expand</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="text-success">
+                        <td colspan="2">Total (&euro;)</td>
+                        <td>&euro; {{ expendituresSum }}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <!--right panel-->
             <div class="col-md-4 order-md-2 mb-4 div-two">
