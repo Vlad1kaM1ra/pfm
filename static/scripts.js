@@ -25,6 +25,11 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
+function expandExpenditures(category, begin, end) {
+    let response = httpGet("/expenditure_expand?category=" + category + "&begin=" + begin + "&end=" + end);
+    document.getElementById("expexp").innerHTML = response;
+}
+
 function validateSignUp() {
     let email = document.forms["signup"]["email"].value;
     let password = document.forms["signup"]["password"].value;

@@ -74,3 +74,8 @@ footer {
     background-color: darkgreen;
     color: white;
 }
+
+input[type=date] {
+    border: 1px solid black;
+    border-color: lightgray;
+}

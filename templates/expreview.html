@@ -13,11 +13,11 @@
                 <form role="form" action="/expreview" method="post">
                     <span>
                         <label for="start">Start date:</label>
-                        <input id="date" type="date" id="start" name="startdate">
+                        <input type="date" id="start" name="startdate" value="{{ begin }}">
                     </span>
                     <span>
-                        <label for="end">Start date:</label>
-                        <input id="date1" type="date" id="end" name="enddate">
+                        <label for="end">End date:</label>
+                        <input type="date" id="end" name="enddate" value="{{ end }}">
                     </span>
                     <span>
                         <button class="btn btn-primary btn-sm" type="submit">Show</button>
@@ -33,7 +33,9 @@
                             <td>{{ expenditure[0] }}</td>
                             <td>&euro;{{ expenditure[1] }}</td>
                             <td>
-                                <button class="btn btn-primary btn-sm" type="button">Expand</button>
+                                <button class="btn btn-primary btn-sm" type="button"
+                                        onclick="expandExpenditures('{{ expenditure[0] }}','{{ begin }}','{{ end }}')">
+                                Expand</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -45,7 +47,7 @@
                 </table>
             </div>
             <!--right panel-->
-            <div class="col-md-4 order-md-2 mb-4 div-two">
+            <div class="col-md-4 order-md-2 mb-4 div-two" id="expexp">
 
             </div>
         </div>

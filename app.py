@@ -160,10 +160,15 @@ def expreview():
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
     expendituresData, expendituresSum = expenditureReview(user, begin, end)
+    if not begin:
+        begindate = datetime.datetime.today()
+        begin = begindate.strftime('%Y-%m-%d')
     return render_template(
         "expreview.html",
         expendituresData=expendituresData,
-        expendituresSum=expendituresSum)
+        expendituresSum=expendituresSum,
+        begin=begin,
+        end=end)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -264,6 +269,25 @@ def check_user():
         return jsonify(True)
     else:
         return jsonify(False)
+
+
+@app.route("/expenditure_expand", methods=["GET"])
+@login_required
+def expenditure_expand():
+    categoryName = request.args.get("category")
+    begin = request.args.get("begin")
+    end = request.args.get("end")
+    user = User.query.filter_by(id=session["user_id"]).first()
+    category = Category.query.filter_by(name=categoryName).first()
+    expenditures = expandExpenditures(user, category, begin, end)
+    print(categoryName)
+    print(begin)
+    print(end)
+
+    return render_template(
+        "expenditure_expand.html",
+        expenditures=expenditures,
+        category=categoryName)
 
 
 @app.route('/check_credentials', methods=["GET"])

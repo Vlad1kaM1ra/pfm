@@ -118,7 +118,23 @@ def expenditureReview(user, begin, end):
             expendituresSum += categorySum
         return [expendituresData, expendituresSum]
     else:
-        return [0, 0]
+        begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
+        end = datetime.datetime.strptime(end, '%Y-%m-%d').date()
+        for category in categories:
+            categorySum = 0
+            expenditures = Expenditure \
+                .query \
+                .filter_by(user_id=user.id) \
+                .filter_by(categories_id=category.id) \
+                .filter(Expenditure.date >= begin) \
+                .filter(Expenditure.date <= end) \
+                .all()
+            for expenditure in expenditures:
+                categorySum += expenditure.price
+            expendituresData.append((category.name, categorySum))
+            # accumulates overal sum from all categories
+            expendituresSum += categorySum
+        return [expendituresData, expendituresSum]
 
 
 def expenditureSummary(user, date, category):
@@ -151,3 +167,26 @@ def currentMonthIncomeSummary(user):
         incomesTotal += income.value
 
     return [incomes, incomesTotal]
+
+
+def expandExpenditures(user, category, begin, end):
+    if end == "None":
+        begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
+        expenditures = Expenditure \
+            .query \
+            .filter_by(user_id=user.id) \
+            .filter_by(categories_id=category.id) \
+            .filter_by(date=begin) \
+            .all()
+        return expenditures
+    else:
+        begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
+        end = datetime.datetime.strptime(end, '%Y-%m-%d').date()
+        expenditures = Expenditure \
+            .query \
+            .filter_by(user_id=user.id) \
+            .filter_by(categories_id=category.id) \
+            .filter(Expenditure.date >= begin) \
+            .filter(Expenditure.date <= end) \
+            .all()
+        return expenditures
