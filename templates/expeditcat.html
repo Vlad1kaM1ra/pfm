@@ -29,6 +29,10 @@
                         </td>
                     </tr>
                 {% endfor %}
+                <tr class="text-success">
+                    <td colspan="2">Total (&euro;)</td>
+                    <td>&euro; {{ expendituresSum }}</td>
+                </tr>
                 </tbody>
             </table>
             <form method="post" action="/expinputcat" onsubmit="return checkExpenditureData();">

@@ -130,16 +130,15 @@ def expinputcat():
 def expeditcat():
     user = User.query.filter_by(id=session["user_id"]).first()
     categoryName = request.args.get("category")
-    print(categoryName)
     date = request.args.get("date")
     date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
     category = Category.query.filter_by(name=categoryName).first()
-    expendituresData = expenditureSummary(user, date, category)
-    print(expendituresData)
+    expendituresData, expendituresSum = expenditureSummary(user, date, category)
     return render_template(
         "expeditcat.html",
         expendituresData=expendituresData,
-        categoryName=categoryName
+        categoryName=categoryName,
+        expendituresSum=expendituresSum
     )
 
 

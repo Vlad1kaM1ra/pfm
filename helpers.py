@@ -113,9 +113,11 @@ def expenditureSummary(user, date, category):
         .filter_by(categories_id=category.id) \
         .filter_by(date=date) \
         .all()
+    expenditureSum = 0
     for expenditure in expenditures:
         expenditureData.append((expenditure.name, expenditure.price, expenditure.id))
-    return expenditureData
+        expenditureSum += expenditure.price
+    return [expenditureData, expenditureSum]
 
 
 def currentMonthIncomeSummary(user):
