@@ -170,7 +170,7 @@ def currentMonthIncomeSummary(user):
 
 
 def expandExpenditures(user, category, begin, end):
-    if end == "None":
+    if not end or end == "None":
         begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
         expenditures = Expenditure \
             .query \
