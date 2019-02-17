@@ -45,13 +45,15 @@ def index():
     print("Current user id={} email={}".format(user.id, user.email))
     expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
     incomes, incomesTotal = currentMonthIncomeSummary(user)
+    balance = incomesTotal - expendituresSum
 
     return render_template(
         "index.html",
         expendituresData=expendituresData,
         expendituresSum=expendituresSum,
         incomes=incomes,
-        incomesTotal=incomesTotal)
+        incomesTotal=incomesTotal,
+        balance=balance)
 
 
 # expenditure input main page controller
