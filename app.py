@@ -171,6 +171,27 @@ def expreview():
         end=end)
 
 
+@app.route("/increview", methods=["GET", "POST"])
+@login_required
+def increview():
+    user = User.query.filter_by(id=session["user_id"]).first()
+    begin = request.form.get("startdate")
+    end = request.form.get("enddate")
+    incomesData, incomesSum = incomesReview(user, begin, end)
+
+    print(incomesData)
+
+    if not begin:
+        begindate = datetime.datetime.today()
+        begin = begindate.strftime('%Y-%m-%d')
+    return render_template(
+        "increview.html",
+        incomesData=incomesData,
+        incomesSum=incomesSum,
+        begin=begin,
+        end=end)
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""

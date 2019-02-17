@@ -10,7 +10,7 @@
         <div class="side-div-wrapper">
             <!--left panel-->
             <div class="col-md-6 order-md-2 mb-4 div-one">
-                <form role="form" action="/expreview" method="post">
+                <form role="form" action="/increview" method="post">
                     <span>
                         <label for="start">Start date:</label>
                         <input type="date" name="startdate" value="{{ begin }}">
@@ -24,25 +24,20 @@
                     </span>
                 </form>
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Expenditure</span>
+                    <span class="text-muted">Income</span>
                 </h4>
                 <table class="table table-bordered">
                     <tbody>
-                    {% for expenditure in expendituresData %}
+                    {% for income in incomesData %}
                         <tr>
-                            <td>{{ expenditure[0] }}</td>
-                            <td>&euro;{{ expenditure[1] }}</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm" type="button"
-                                        onclick="expandExpenditures('{{ expenditure[0] }}','{{ begin }}','{{ end }}')">
-                                    Expand
-                                </button>
-                            </td>
+                            <td>{{ income.date }}</td>
+                            <td>{{ income.type }}</td>
+                            <td>&euro;{{ income.value }}</td>
                         </tr>
                     {% endfor %}
                     <tr class="text-success">
                         <td colspan="2">Total (&euro;)</td>
-                        <td>&euro; {{ expendituresSum }}</td>
+                        <td>&euro; {{ incomesSum }}</td>
                     </tr>
                     </tbody>
                 </table>

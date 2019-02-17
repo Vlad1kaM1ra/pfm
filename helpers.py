@@ -137,6 +137,40 @@ def expenditureReview(user, begin, end):
         return [expendituresData, expendituresSum]
 
 
+def incomesReview(user, begin, end):
+    incomesData = []
+    incomesSum = 0
+    if not begin and not end:
+        begindate = datetime.datetime.today()
+        begin = begindate.strftime('%Y-%m-%d')
+
+        incomesData = Income \
+            .query \
+            .filter_by(user_id=user.id) \
+            .filter_by(date=begin) \
+            .all()
+    elif not end:
+        date = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
+        incomesData = Income \
+            .query \
+            .filter_by(user_id=user.id) \
+            .filter_by(date=date) \
+            .all()
+    else:
+        begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
+        end = datetime.datetime.strptime(end, '%Y-%m-%d').date()
+        incomesData = Income \
+            .query \
+            .filter_by(user_id=user.id) \
+            .filter(Income.date >= begin) \
+            .filter(Income.date <= end) \
+            .all()
+    for income in incomesData:
+        incomesSum += income.value
+
+    return [incomesData, incomesSum]
+
+
 def expenditureSummary(user, date, category):
     expenditureData = []
     expenditures = Expenditure \
