@@ -1,6 +1,8 @@
 import os
+import io
+import csv
 from flask import Flask, session, request, jsonify, redirect
-from flask import render_template
+from flask import render_template, make_response
 from helpers import *
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -309,6 +311,39 @@ def expenditure_expand():
         "expenditure_expand.html",
         expenditures=expenditures,
         category=categoryName)
+
+
+
+@app.route("/downloadexp", methods=["GET"])
+@login_required
+def downloadExp():
+    user = User.query.filter_by(id=session["user_id"]).first()
+    expendituresList = getExpDumpList(user)
+
+    si = io.StringIO()
+    cw = csv.writer(si)
+    cw.writerow(['date', 'category', 'name','price'])
+    cw.writerows(expendituresList)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=expenditures.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
+
+
+@app.route("/downloadinc", methods=["GET"])
+@login_required
+def downloadInc():
+    user = User.query.filter_by(id=session["user_id"]).first()
+    incomeList = getIncDumpList(user)
+
+    si = io.StringIO()
+    cw = csv.writer(si)
+    cw.writerow(['date', 'type', 'value'])
+    cw.writerows(incomeList)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=incomes.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 
 @app.route('/check_credentials', methods=["GET"])

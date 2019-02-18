@@ -58,3 +58,20 @@ class Expenditure(db.Model):
         expenditure = Expenditure.query.filter_by(id=expenditure_id).first()
         db.session.delete(expenditure)
         db.session.commit()
+
+
+def getExpDumpList(user):
+    res = db.session.query(Expenditure.date, Category.name, Expenditure.name, Expenditure.price)\
+        .outerjoin(Category, Category.id == Expenditure.categories_id)\
+        .filter(Expenditure.user_id == user.id) \
+        .order_by(Expenditure.date) \
+        .all()
+    return res
+
+def getIncDumpList(user):
+    res = db.session.query(Income.date, Income.type, Income.value) \
+        .filter(Income.user_id == user.id) \
+        .order_by(Income.date) \
+        .all()
+    return res
+

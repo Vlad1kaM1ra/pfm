@@ -15,7 +15,7 @@
                 {% for expenditure in expendituresData %}
                     <tr>
                         <td>{{ expenditure[0] }}</td>
-                        <td>{{ expenditure[1] }}</td>
+                        <td>&euro;{{ expenditure[1] }}</td>
                         <td>
                             <form role="form" action="/delexpenditure" method="post"
                                   onsubmit="return checkDateOnExpdeditureMainForm();">
