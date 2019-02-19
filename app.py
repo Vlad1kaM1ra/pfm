@@ -54,7 +54,8 @@ def index():
         expendituresSum=expendituresSum,
         incomes=incomes,
         incomesTotal=incomesTotal,
-        balance=balance)
+        balance=balance,
+        user=user.email)
 
 
 # expenditure input main page controller
@@ -68,7 +69,8 @@ def expinputmain():
     return render_template(
         "expinputmain.html",
         expendituresData=expendituresData,
-        expendituresSum=expendituresSum)
+        expendituresSum=expendituresSum,
+        user=user.email)
 
 
 # income input main page controller
@@ -93,7 +95,8 @@ def incomeinputmain():
         return render_template(
             "incomeinputmain.html",
             incomes=incomes,
-            incomesTotal=incomesTotal)
+            incomesTotal=incomesTotal,
+            user=user.email)
 
 
 @app.route("/incomedelete", methods=["POST"])
