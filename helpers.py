@@ -148,6 +148,7 @@ def incomesReview(user, begin, end):
             .query \
             .filter_by(user_id=user.id) \
             .filter_by(date=begin) \
+            .order_by(Income.date) \
             .all()
     elif not end:
         date = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
@@ -155,6 +156,7 @@ def incomesReview(user, begin, end):
             .query \
             .filter_by(user_id=user.id) \
             .filter_by(date=date) \
+            .order_by(Income.date) \
             .all()
     else:
         begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
@@ -164,6 +166,7 @@ def incomesReview(user, begin, end):
             .filter_by(user_id=user.id) \
             .filter(Income.date >= begin) \
             .filter(Income.date <= end) \
+            .order_by(Income.date) \
             .all()
     for income in incomesData:
         incomesSum += income.value
@@ -194,6 +197,7 @@ def currentMonthIncomeSummary(user):
         .filter_by(user_id=user.id) \
         .filter(Income.date >= begin) \
         .filter(Income.date < end) \
+        .order_by(Income.date) \
         .all()
 
     incomesTotal = 0
@@ -211,6 +215,7 @@ def expandExpenditures(user, category, begin, end):
             .filter_by(user_id=user.id) \
             .filter_by(categories_id=category.id) \
             .filter_by(date=begin) \
+            .order_by(Expenditure.date) \
             .all()
         return expenditures
     else:
@@ -222,5 +227,6 @@ def expandExpenditures(user, category, begin, end):
             .filter_by(categories_id=category.id) \
             .filter(Expenditure.date >= begin) \
             .filter(Expenditure.date <= end) \
+            .order_by(Expenditure.date) \
             .all()
         return expenditures
