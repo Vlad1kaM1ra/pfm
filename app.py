@@ -44,6 +44,7 @@ def index():
     """
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
+    # get expenditures and income summary on current month
     expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
     incomes, incomesTotal = currentMonthIncomeSummary(user)
     balance = incomesTotal - expendituresSum
@@ -77,6 +78,10 @@ def expinputmain():
 @app.route("/incomeinputmain", methods=["GET", "POST"])
 @login_required
 def incomeinputmain():
+    """
+    incomes input form and data save handler
+    :return:
+    """
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
 
@@ -102,6 +107,10 @@ def incomeinputmain():
 @app.route("/incomedelete", methods=["POST"])
 @login_required
 def incomedelete():
+    """
+    Special income deleting handler
+    :return:
+    """
     # get current user
     id = request.form.get("id")
     Income.del_income(Income, id)
@@ -112,6 +121,10 @@ def incomedelete():
 @app.route("/expinputcat", methods=["POST"])
 @login_required
 def expinputcat():
+    """
+    expenditures input form and data saving handler
+    :return:
+    """
     names = request.form.getlist('name[]')
     prices = request.form.getlist('price[]')
     categoryName = request.form.get('category')
@@ -131,6 +144,10 @@ def expinputcat():
 @app.route("/expeditcat", methods=["GET"])
 @login_required
 def expeditcat():
+    """
+    Edit expenditure form handler
+    :return:
+    """
     user = User.query.filter_by(id=session["user_id"]).first()
     categoryName = request.args.get("category")
     date = request.args.get("date")
@@ -149,6 +166,10 @@ def expeditcat():
 @app.route("/delexpenditure", methods=["POST"])
 @login_required
 def delexpenditure():
+    """
+    Expenditures deleting handler
+    :return:
+    """
     date = request.form.get("date")
     category = request.form.get("category")
     expenditureId = request.form.get("id")
@@ -161,6 +182,10 @@ def delexpenditure():
 @app.route("/expreview", methods=["GET", "POST"])
 @login_required
 def expreview():
+    """
+    expenditures review form hadnler
+    :return:
+    """
     user = User.query.filter_by(id=session["user_id"]).first()
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
@@ -179,12 +204,14 @@ def expreview():
 @app.route("/increview", methods=["GET", "POST"])
 @login_required
 def increview():
+    """
+    Income review form handler
+    :return:
+    """
     user = User.query.filter_by(id=session["user_id"]).first()
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
     incomesData, incomesSum = incomesReview(user, begin, end)
-
-    print(incomesData)
 
     if not begin:
         begindate = datetime.datetime.today()
@@ -300,15 +327,17 @@ def check_user():
 @app.route("/expenditure_expand", methods=["GET"])
 @login_required
 def expenditure_expand():
+    """
+    Expenditures expand handler end point
+    :return:
+    selected expenditures details html for inserting in page
+    """
     categoryName = request.args.get("category")
     begin = request.args.get("begin")
     end = request.args.get("end")
     user = User.query.filter_by(id=session["user_id"]).first()
     category = Category.query.filter_by(name=categoryName).first()
     expenditures = expandExpenditures(user, category, begin, end)
-    print(categoryName)
-    print(begin)
-    print(end)
 
     return render_template(
         "expenditure_expand.html",
@@ -320,6 +349,11 @@ def expenditure_expand():
 @app.route("/downloadexp", methods=["GET"])
 @login_required
 def downloadExp():
+    """
+    generates expenditures full backup csv
+    for downloading
+    :return:
+    """
     user = User.query.filter_by(id=session["user_id"]).first()
     expendituresList = getExpDumpList(user)
 
@@ -336,6 +370,11 @@ def downloadExp():
 @app.route("/downloadinc", methods=["GET"])
 @login_required
 def downloadInc():
+    """
+    generates incomes full backup csv
+    for downloading
+    :return:
+    """
     user = User.query.filter_by(id=session["user_id"]).first()
     incomeList = getIncDumpList(user)
 
