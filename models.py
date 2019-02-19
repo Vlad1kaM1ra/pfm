@@ -27,7 +27,7 @@ class Income(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     date = db.Column(db.Date, nullable=False)
     type = db.Column(db.String, nullable=False)
-    value = db.Column(db.Integer, nullable=False)
+    value = db.Column(db.Float, nullable=False)
 
     def add_income(self, user, date, type, value):
         income = Income(user_id=user.id, date=date, type=type, value=value)
@@ -47,7 +47,7 @@ class Expenditure(db.Model):
     categories_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
     date = db.Column(db.Date, nullable=False)
     name = db.Column(db.String, nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
     def add_expenditure(self, user, category, date, name, price):
         expenditure = Expenditure(user_id=user.id, categories_id=category.id, date=date, name=name, price=price)
