@@ -27,7 +27,7 @@ class Income(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     date = db.Column(db.Date, nullable=False)
     type = db.Column(db.String, nullable=False)
-    value = db.Column(db.Numeric(10,2), nullable=False)
+    value = db.Column(db.Numeric(10, 2), nullable=False)
 
     def add_income(self, user, date, type, value):
         income = Income(user_id=user.id, date=date, type=type, value=value)
@@ -47,7 +47,7 @@ class Expenditure(db.Model):
     categories_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
     date = db.Column(db.Date, nullable=False)
     name = db.Column(db.String, nullable=False)
-    price = db.Column(db.Numeric(10,2), nullable=False)
+    price = db.Column(db.Numeric(10, 2), nullable=False)
 
     def add_expenditure(self, user, category, date, name, price):
         expenditure = Expenditure(user_id=user.id, categories_id=category.id, date=date, name=name, price=price)
@@ -61,12 +61,13 @@ class Expenditure(db.Model):
 
 
 def getExpDumpList(user):
-    res = db.session.query(Expenditure.date, Category.name, Expenditure.name, Expenditure.price)\
-        .outerjoin(Category, Category.id == Expenditure.categories_id)\
+    res = db.session.query(Expenditure.date, Category.name, Expenditure.name, Expenditure.price) \
+        .outerjoin(Category, Category.id == Expenditure.categories_id) \
         .filter(Expenditure.user_id == user.id) \
         .order_by(Expenditure.date) \
         .all()
     return res
+
 
 def getIncDumpList(user):
     res = db.session.query(Income.date, Income.type, Income.value) \
@@ -74,4 +75,3 @@ def getIncDumpList(user):
         .order_by(Income.date) \
         .all()
     return res
-

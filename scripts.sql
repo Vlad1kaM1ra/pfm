@@ -63,7 +63,7 @@ CREATE TABLE expenditures
   categories_id INTEGER NOT NULL,
   date          DATE    NOT NULL,
   name          VARCHAR NOT NULL,
-  price         DECIMAL(10,2) DEFAULT 0,
+  price         DECIMAL(10, 2) DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users (id),
   FOREIGN KEY (categories_id) REFERENCES categories (id)
 );
@@ -84,9 +84,9 @@ CREATE TABLE income
 CREATE TABLE income
 (
   id      SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL,
-  date    DATE NOT NULL ,
-  type    VARCHAR NOT NULL,
-  value   DECIMAL(10,2) NOT NULL,
+  user_id INTEGER        NOT NULL,
+  date    DATE           NOT NULL,
+  type    VARCHAR        NOT NULL,
+  value   DECIMAL(10, 2) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id)
 );
