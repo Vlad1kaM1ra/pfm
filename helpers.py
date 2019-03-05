@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, session
 from functools import wraps
 import datetime
 from models import *
@@ -38,7 +38,11 @@ def login_required(f):
 
 
 def getDateDiapazon():
-    # get date period
+    """
+    Generate date range for current month
+    :return:
+    first and last date of current month
+    """
     begindate = datetime.datetime.today()
     begindate = begindate.replace(day=1)
     begin = begindate.strftime('%Y-%m-%d')
@@ -57,6 +61,13 @@ def getDateDiapazon():
 
 
 def currentMonthExpenditureSummary(user):
+    """
+    Get info about expenditures in current month
+    :param user:
+    :return:
+    Summary data by categories
+    and expenditures sum
+    """
     begin, end = getDateDiapazon()
     # generates expenditures category, sum tuple
     expendituresData = []
@@ -81,6 +92,18 @@ def currentMonthExpenditureSummary(user):
 
 
 def expenditureReview(user, begin, end):
+    """
+    Generate reports for
+    today
+    specified day
+    time period
+    :param user:
+    :param begin:
+    :param end:
+    :return:
+    sum by categories for period
+    and overall sum
+    """
     categories = Category.query.all()
     expendituresData = []
     expendituresSum = 0
@@ -138,7 +161,18 @@ def expenditureReview(user, begin, end):
 
 
 def incomesReview(user, begin, end):
-    incomesData = []
+    """
+    Generate reports for
+    today
+    specified day
+    time period
+    :param user:
+    :param begin:
+    :param end:
+    :return:
+    incomes for period
+    and overall sum
+    """
     incomesSum = 0
     if not begin and not end:
         begindate = datetime.datetime.today()
@@ -175,6 +209,16 @@ def incomesReview(user, begin, end):
 
 
 def expenditureSummary(user, date, category):
+    """
+    Generate date for expenditures for specified
+    category in specified date range
+    :param user:
+    :param date:
+    :param category:
+    :return:
+    Date by items
+    overall sum
+    """
     expenditureData = []
     expenditures = Expenditure \
         .query \
@@ -190,6 +234,13 @@ def expenditureSummary(user, date, category):
 
 
 def currentMonthIncomeSummary(user):
+    """
+    Sumary of incomes
+    :param user:
+    :return:
+    Incomes item by item
+    overall sum
+    """
     begin, end = getDateDiapazon()
     # get income data for period
     incomes = Income \
@@ -208,6 +259,17 @@ def currentMonthIncomeSummary(user):
 
 
 def expandExpenditures(user, category, begin, end):
+    """
+    Expendetures details for specified category
+    in specified time period
+    Data for ajax request
+    :param user:
+    :param category:
+    :param begin:
+    :param end:
+    :return:
+    Expenditures item by item
+    """
     if not end or end == "None":
         begin = datetime.datetime.strptime(begin, '%Y-%m-%d').date()
         expenditures = Expenditure \

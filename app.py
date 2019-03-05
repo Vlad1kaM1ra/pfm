@@ -400,7 +400,6 @@ def check_credentials():
     user = User.query.filter_by(email=email).first()
     if not user:
         return jsonify(False)
-    hashstring = str(user.hashstring)
     if check_password_hash(user.hashstring, password):
         return jsonify(True)
     else:
