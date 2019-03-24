@@ -9,7 +9,8 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     hashstring = db.Column(db.String, nullable=False)
 
-    def add_user(self, email, hashstring):
+    @staticmethod
+    def add_user(email, hashstring):
         user = User(email=email, hashstring=hashstring)
         db.session.add(user)
         db.session.commit()
@@ -29,12 +30,14 @@ class Income(db.Model):
     type = db.Column(db.String, nullable=False)
     value = db.Column(db.Numeric(10, 2), nullable=False)
 
-    def add_income(self, user, date, type, value):
+    @staticmethod
+    def add_income(user, date, type, value):
         income = Income(user_id=user.id, date=date, type=type, value=value)
         db.session.add(income)
         db.session.commit()
 
-    def del_income(self, income_id):
+    @staticmethod
+    def del_income(income_id):
         income = Income.query.filter_by(id=income_id).first()
         db.session.delete(income)
         db.session.commit()
@@ -49,18 +52,20 @@ class Expenditure(db.Model):
     name = db.Column(db.String, nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
 
-    def add_expenditure(self, user, category, date, name, price):
+    @staticmethod
+    def add_expenditure(user, category, date, name, price):
         expenditure = Expenditure(user_id=user.id, categories_id=category.id, date=date, name=name, price=price)
         db.session.add(expenditure)
         db.session.commit()
 
-    def del_expenditure(self, expenditure_id):
+    @staticmethod
+    def del_expenditure(expenditure_id):
         expenditure = Expenditure.query.filter_by(id=expenditure_id).first()
         db.session.delete(expenditure)
         db.session.commit()
 
 
-def getExpDumpList(user):
+def get_expenditure_dump_list(user):
     res = db.session.query(Expenditure.date, Category.name, Expenditure.name, Expenditure.price) \
         .outerjoin(Category, Category.id == Expenditure.categories_id) \
         .filter(Expenditure.user_id == user.id) \
@@ -69,7 +74,7 @@ def getExpDumpList(user):
     return res
 
 
-def getIncDumpList(user):
+def get_income_dump_list(user):
     res = db.session.query(Income.date, Income.type, Income.value) \
         .filter(Income.user_id == user.id) \
         .order_by(Income.date) \

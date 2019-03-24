@@ -92,7 +92,7 @@ def income_input_main():
         value = request.form.get('value')
         if not type or not value:
             return apology("Not provided type or value", 403)
-        Income.add_income(Income, user, date, type, value)
+        Income.add_income(user, date, type, value)
         return redirect("/incomeinputmain")
     else:
         incomes, incomesTotal = current_month_income_summary(user)
@@ -113,7 +113,7 @@ def income_delete():
     """
     # get current user
     id = request.form.get("id")
-    Income.del_income(Income, id)
+    Income.del_income(id)
     return redirect("/incomeinputmain")
 
 
@@ -136,7 +136,7 @@ def expenditure_input_category():
     for i in range(len(names)):
         if not names[i] or not prices[i]:
             return apology("Not provided name or price", 403)
-        Expenditure.add_expenditure(Expenditure, user, category, date, names[i], prices[i])
+        Expenditure.add_expenditure(user, category, date, names[i], prices[i])
     return redirect("/expeditcat?category=" + categoryName + "&date=" + dates)
 
 
@@ -174,7 +174,7 @@ def delete_expenditure():
     category = request.form.get("category")
     expenditureId = request.form.get("id")
 
-    Expenditure.del_expenditure(Expenditure, expenditureId)
+    Expenditure.del_expenditure(expenditureId)
 
     return redirect("/expeditcat?category=" + category + "&date=" + date)
 
@@ -355,7 +355,7 @@ def download_exp():
     :return:
     """
     user = User.query.filter_by(id=session["user_id"]).first()
-    expendituresList = getExpDumpList(user)
+    expendituresList = get_expenditure_dump_list(user)
 
     si = io.StringIO()
     cw = csv.writer(si)
@@ -376,7 +376,7 @@ def download_inc():
     :return:
     """
     user = User.query.filter_by(id=session["user_id"]).first()
-    incomeList = getIncDumpList(user)
+    incomeList = get_income_dump_list(user)
 
     si = io.StringIO()
     cw = csv.writer(si)
