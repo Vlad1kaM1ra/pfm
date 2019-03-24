@@ -91,7 +91,7 @@ def current_month_expenditure_summary(user):
     return [expendituresData, expendituresSum]
 
 
-def expenditure_review(user, begin, end):
+def expenditure_review_data(user, begin, end):
     """
     Generate reports for
     today
@@ -160,7 +160,7 @@ def expenditure_review(user, begin, end):
         return [expendituresData, expendituresSum]
 
 
-def incomes_review(user, begin, end):
+def incomes_review_data(user, begin, end):
     """
     Generate reports for
     today

@@ -189,7 +189,7 @@ def expenditure_review():
     user = User.query.filter_by(id=session["user_id"]).first()
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
-    expendituresData, expendituresSum = expenditure_review(user, begin, end)
+    expendituresData, expendituresSum = expenditure_review_data(user, begin, end)
     if not begin:
         begindate = datetime.datetime.today()
         begin = begindate.strftime('%Y-%m-%d')
@@ -211,7 +211,7 @@ def income_review():
     user = User.query.filter_by(id=session["user_id"]).first()
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
-    incomesData, incomesSum = incomes_review(user, begin, end)
+    incomesData, incomesSum = incomes_review_data(user, begin, end)
 
     if not begin:
         begindate = datetime.datetime.today()
