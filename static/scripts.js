@@ -11,7 +11,7 @@ function validateLogin() {
     } else {
         // check if email busy
         let response = httpGet(
-            "/check_credentials?email=" + email
+            "/checkcredentials?email=" + email
             + "&password=" + password)
             .toString().trim();
         if (response == "false") {
@@ -32,7 +32,7 @@ function httpGet(theUrl) {
 
 // get expenditures details from server and put to page
 function expandExpenditures(category, begin, end) {
-    let response = httpGet("/expenditure_expand?category=" + category + "&begin=" + begin + "&end=" + end);
+    let response = httpGet("/expenditureexpand?category=" + category + "&begin=" + begin + "&end=" + end);
     document.getElementById("expexp").innerHTML = response;
 }
 
@@ -49,7 +49,7 @@ function validateSignUp() {
         errorMessage.innerText = "Password and confirmation not match";
         return false;
     } else {
-        let response = httpGet("/check_user?email=" + email).toString().trim();
+        let response = httpGet("/checkuser?email=" + email).toString().trim();
         if (response == "true") {
             errorMessage.innerText = email + " already exists in base!";
             return false;

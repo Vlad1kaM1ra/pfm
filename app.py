@@ -287,13 +287,13 @@ def logout():
 #         else:
 #             # generate hash for entered password
 #             passwordHash = generate_password_hash(request.form.get("password"))
-
-
+#
+#
 #             # check for user exists already
-
+#
 #             if User.query.filter_by(email=request.form.get("email")).count() > 0:
 #                 return apology("User already exist", 403)
-
+#
 #             # add user to db
 #             User.add_user(
 #                 User,
@@ -309,7 +309,7 @@ def logout():
 #     else:
 #         return render_template("signup.html")
 
-@app.route('/check_user', methods=["GET"])
+@app.route('/checkuser', methods=["GET"])
 def check_user():
     """
     Check user existence by email
@@ -324,7 +324,7 @@ def check_user():
         return jsonify(False)
 
 
-@app.route("/expenditure_expand", methods=["GET"])
+@app.route("/expenditureexpand", methods=["GET"])
 @login_required
 def expenditure_expand():
     """
@@ -388,7 +388,7 @@ def downloadInc():
     return output
 
 
-@app.route('/check_credentials', methods=["GET"])
+@app.route('/checkcredentials', methods=["GET"])
 def check_credentials():
     """
     Check user credentials
