@@ -37,7 +37,7 @@ def login_required(f):
     return decorated_function
 
 
-def getDateDiapazon():
+def get_date_diapazon():
     """
     Generate date range for current month
     :return:
@@ -60,7 +60,7 @@ def getDateDiapazon():
     return [begin, end]
 
 
-def currentMonthExpenditureSummary(user):
+def current_month_expenditure_summary(user):
     """
     Get info about expenditures in current month
     :param user:
@@ -68,7 +68,7 @@ def currentMonthExpenditureSummary(user):
     Summary data by categories
     and expenditures sum
     """
-    begin, end = getDateDiapazon()
+    begin, end = get_date_diapazon()
     # generates expenditures category, sum tuple
     expendituresData = []
     expendituresSum = 0
@@ -91,7 +91,7 @@ def currentMonthExpenditureSummary(user):
     return [expendituresData, expendituresSum]
 
 
-def expenditureReview(user, begin, end):
+def expenditure_review(user, begin, end):
     """
     Generate reports for
     today
@@ -160,7 +160,7 @@ def expenditureReview(user, begin, end):
         return [expendituresData, expendituresSum]
 
 
-def incomesReview(user, begin, end):
+def incomes_review(user, begin, end):
     """
     Generate reports for
     today
@@ -208,7 +208,7 @@ def incomesReview(user, begin, end):
     return [incomesData, incomesSum]
 
 
-def expenditureSummary(user, date, category):
+def expenditure_summary(user, date, category):
     """
     Generate date for expenditures for specified
     category in specified date range
@@ -233,7 +233,7 @@ def expenditureSummary(user, date, category):
     return [expenditureData, expenditureSum]
 
 
-def currentMonthIncomeSummary(user):
+def current_month_income_summary(user):
     """
     Sumary of incomes
     :param user:
@@ -241,7 +241,7 @@ def currentMonthIncomeSummary(user):
     Incomes item by item
     overall sum
     """
-    begin, end = getDateDiapazon()
+    begin, end = get_date_diapazon()
     # get income data for period
     incomes = Income \
         .query \
@@ -258,7 +258,7 @@ def currentMonthIncomeSummary(user):
     return [incomes, incomesTotal]
 
 
-def expandExpenditures(user, category, begin, end):
+def expand_expenditures(user, category, begin, end):
     """
     Expendetures details for specified category
     in specified time period

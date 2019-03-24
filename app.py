@@ -45,8 +45,8 @@ def index():
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
     # get expenditures and income summary on current month
-    expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
-    incomes, incomesTotal = currentMonthIncomeSummary(user)
+    expendituresData, expendituresSum = current_month_expenditure_summary(user)
+    incomes, incomesTotal = current_month_income_summary(user)
     balance = incomesTotal - expendituresSum
 
     return render_template(
@@ -62,10 +62,10 @@ def index():
 # expenditure input main page controller
 @app.route("/expinputmain")
 @login_required
-def expinputmain():
+def expenditure_input_main():
     # get current user
     user = User.query.filter_by(id=session["user_id"]).first()
-    expendituresData, expendituresSum = currentMonthExpenditureSummary(user)
+    expendituresData, expendituresSum = current_month_expenditure_summary(user)
 
     return render_template(
         "expinputmain.html",
@@ -77,7 +77,7 @@ def expinputmain():
 # income input main page controller
 @app.route("/incomeinputmain", methods=["GET", "POST"])
 @login_required
-def incomeinputmain():
+def income_input_main():
     """
     incomes input form and data save handler
     :return:
@@ -95,7 +95,7 @@ def incomeinputmain():
         Income.add_income(Income, user, date, type, value)
         return redirect("/incomeinputmain")
     else:
-        incomes, incomesTotal = currentMonthIncomeSummary(user)
+        incomes, incomesTotal = current_month_income_summary(user)
 
         return render_template(
             "incomeinputmain.html",
@@ -106,7 +106,7 @@ def incomeinputmain():
 
 @app.route("/incomedelete", methods=["POST"])
 @login_required
-def incomedelete():
+def income_delete():
     """
     Special income deleting handler
     :return:
@@ -120,7 +120,7 @@ def incomedelete():
 # input expenditures items to concrete category
 @app.route("/expinputcat", methods=["POST"])
 @login_required
-def expinputcat():
+def expenditure_input_category():
     """
     expenditures input form and data saving handler
     :return:
@@ -143,7 +143,7 @@ def expinputcat():
 # edit expenditure page controller
 @app.route("/expeditcat", methods=["GET"])
 @login_required
-def expeditcat():
+def expenditure_edit_category():
     """
     Edit expenditure form handler
     :return:
@@ -153,7 +153,7 @@ def expeditcat():
     date = request.args.get("date")
     date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
     category = Category.query.filter_by(name=categoryName).first()
-    expendituresData, expendituresSum = expenditureSummary(user, date, category)
+    expendituresData, expendituresSum = expenditure_summary(user, date, category)
     return render_template(
         "expeditcat.html",
         expendituresData=expendituresData,
@@ -165,7 +165,7 @@ def expeditcat():
 # delete expenditure end point
 @app.route("/delexpenditure", methods=["POST"])
 @login_required
-def delexpenditure():
+def delete_expenditure():
     """
     Expenditures deleting handler
     :return:
@@ -181,7 +181,7 @@ def delexpenditure():
 
 @app.route("/expreview", methods=["GET", "POST"])
 @login_required
-def expreview():
+def expenditure_review():
     """
     expenditures review form hadnler
     :return:
@@ -189,7 +189,7 @@ def expreview():
     user = User.query.filter_by(id=session["user_id"]).first()
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
-    expendituresData, expendituresSum = expenditureReview(user, begin, end)
+    expendituresData, expendituresSum = expenditure_review(user, begin, end)
     if not begin:
         begindate = datetime.datetime.today()
         begin = begindate.strftime('%Y-%m-%d')
@@ -203,7 +203,7 @@ def expreview():
 
 @app.route("/increview", methods=["GET", "POST"])
 @login_required
-def increview():
+def income_review():
     """
     Income review form handler
     :return:
@@ -211,7 +211,7 @@ def increview():
     user = User.query.filter_by(id=session["user_id"]).first()
     begin = request.form.get("startdate")
     end = request.form.get("enddate")
-    incomesData, incomesSum = incomesReview(user, begin, end)
+    incomesData, incomesSum = incomes_review(user, begin, end)
 
     if not begin:
         begindate = datetime.datetime.today()
@@ -337,7 +337,7 @@ def expenditure_expand():
     end = request.args.get("end")
     user = User.query.filter_by(id=session["user_id"]).first()
     category = Category.query.filter_by(name=categoryName).first()
-    expenditures = expandExpenditures(user, category, begin, end)
+    expenditures = expand_expenditures(user, category, begin, end)
 
     return render_template(
         "expenditure_expand.html",
@@ -348,7 +348,7 @@ def expenditure_expand():
 
 @app.route("/downloadexp", methods=["GET"])
 @login_required
-def downloadExp():
+def download_exp():
     """
     generates expenditures full backup csv
     for downloading
@@ -369,7 +369,7 @@ def downloadExp():
 
 @app.route("/downloadinc", methods=["GET"])
 @login_required
-def downloadInc():
+def download_inc():
     """
     generates incomes full backup csv
     for downloading
@@ -406,7 +406,7 @@ def check_credentials():
         return jsonify(False)
 
 
-def errorhandler(e):
+def error_handler(e):
     """Handle error"""
     return apology(e.name, e.code)
 
@@ -414,4 +414,4 @@ def errorhandler(e):
 if __name__ == '__main__':
     app.run()
 for code in default_exceptions:
-    app.errorhandler(code)(errorhandler)
+    app.errorhandler(code)(error_handler)
