@@ -9,6 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models import *
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -268,46 +269,46 @@ def logout():
     return redirect("/")
 
 
-# @app.route('/signup', methods=["GET", "POST"])
-# def signup():
-#     """
-#     Register user
-#     :return:
-#     """
-#     # param validation
-#     if request.method == "POST":
-#         if not request.form.get("email"):
-#             return apology("must provide email", 400)
-#         elif not request.form.get("password"):
-#             return apology("must provide password", 400)
-#         elif not request.form.get("confirmation"):
-#             return apology("must provide confirmation", 400)
-#         elif request.form.get("confirmation") != request.form.get("password"):
-#             return apology("password and confirmation must match", 400)
-#         else:
-#             # generate hash for entered password
-#             passwordHash = generate_password_hash(request.form.get("password"))
-#
-#
-#             # check for user exists already
-#
-#             if User.query.filter_by(email=request.form.get("email")).count() > 0:
-#                 return apology("User already exist", 403)
-#
-#             # add user to db
-#             User.add_user(
-#                 User,
-#                 email=request.form.get("email"),
-#                 hashstring=passwordHash)
-#             # request base for id
-#             id = User.query.filter_by(email=request.form.get("email")) \
-#                 .first() \
-#                 .id
-#             # add id to session
-#             session["user_id"] = id
-#             return redirect("/")
-#     else:
-#         return render_template("signup.html")
+@app.route('/signup', methods=["GET", "POST"])
+def signup():
+    """
+    Register user
+    :return:
+    """
+    # param validation
+    if request.method == "POST":
+        if not request.form.get("email"):
+            return apology("must provide email", 400)
+        elif not request.form.get("password"):
+            return apology("must provide password", 400)
+        elif not request.form.get("confirmation"):
+            return apology("must provide confirmation", 400)
+        elif request.form.get("confirmation") != request.form.get("password"):
+            return apology("password and confirmation must match", 400)
+        else:
+            # generate hash for entered password
+            passwordHash = generate_password_hash(request.form.get("password"))
+
+
+            # check for user exists already
+
+            if User.query.filter_by(email=request.form.get("email")).count() > 0:
+                return apology("User already exist", 403)
+
+            # add user to db
+            User.add_user(
+                User,
+                email=request.form.get("email"),
+                hashstring=passwordHash)
+            # request base for id
+            id = User.query.filter_by(email=request.form.get("email")) \
+                .first() \
+                .id
+            # add id to session
+            session["user_id"] = id
+            return redirect("/")
+    else:
+        return render_template("signup.html")
 
 @app.route('/checkuser', methods=["GET"])
 def check_user():
